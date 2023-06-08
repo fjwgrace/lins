@@ -10,16 +10,16 @@ namespace Trader.Models
     public  class LoginRequestInfo
     {
         [JsonName("username")]
-        public string UserName { get; set; }
+        public string UserName;
         [JsonName("password")]
-        public string Password { get; set; }
+        public string Password;
         [JsonName("mac")]
-        public string Mac { get; set; }
+        public string Mac;
         [JsonName("lan_ip")]
-        public string IPAddress { get; set; }
+        public string IPAddress;
         [JsonName("hd_sn")]
-        public string HdSN { get; set; }
+        public string HdSN;
         [JsonName("cpu_id")]
-        public string CPUID { get; set; }
+        public string CPUID;
     }
 }
