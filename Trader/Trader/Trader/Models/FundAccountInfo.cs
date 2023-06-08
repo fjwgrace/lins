@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Trader.Models
 {
-    internal class FundAccountInfo
+    public class FundAccountInfo
     {
         [JsonName("username")]
         public string Username { get; set; }

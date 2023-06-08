@@ -66,6 +66,7 @@
       <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Management" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -100,6 +101,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\Log.cs" />
+    <Compile Include="Models\Deal.cs" />
+    <Compile Include="Models\DealResponse.cs" />
+    <Compile Include="Models\LoginResponse.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderResponse.cs" />
+    <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\PositionResponse.cs" />
+    <Compile Include="Models\PositionSetting.cs" />
     <Compile Include="ViewModels\ListViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\TradeVewModel.cs" />
@@ -114,7 +123,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\DataCenter.cs" />
-    <Compile Include="Core\SystemInfoHelper.cs" />
+    <Compile Include="Core\SystemInfoProvider.cs" />
     <Compile Include="Views\TradWindow.xaml.cs">
       <DependentUpon>TradWindow.xaml</DependentUpon>
     </Compile>
@@ -134,7 +143,7 @@
   <ItemGroup>
     <Compile Include="Models\ErrorInfo.cs" />
     <Compile Include="Models\FundAccountInfo.cs" />
-    <Compile Include="Models\LoginInfo.cs" />
+    <Compile Include="Models\LoginRequestInfo.cs" />
     <Compile Include="Models\LoginResponseInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

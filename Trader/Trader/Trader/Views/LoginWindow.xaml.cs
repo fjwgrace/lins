@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Trader.Core;
+using Trader.Models;
 
 namespace Trader.Views
 {
@@ -24,6 +25,21 @@ namespace Trader.Views
         {
             InitializeComponent();
             Log.Logger.Information("It's just a test");
+            this.Loaded += LoginWindow_Loaded;
+        }
+
+        private async void LoginWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoginRequestInfo loginRequestInfo = new LoginRequestInfo();
+            loginRequestInfo.IPAddress = (await SystemInfoProvider.GetIPAddress()).First();
+            loginRequestInfo.CPUID = await SystemInfoProvider.GetCPUID();
+            loginRequestInfo.HdSN=await SystemInfoProvider.GetHDSN();
+            loginRequestInfo.Mac=await SystemInfoProvider.GetMac();
+            loginRequestInfo.UserName = "1880021060";
+            loginRequestInfo.Password = "123456";
+            var result = await DataCenter.Login(loginRequestInfo);
+            Console.WriteLine(result);
+
         }
     }
 }

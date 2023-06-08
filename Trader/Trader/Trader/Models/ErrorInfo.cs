@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Trader.Models
 {
-    internal class ErrorInfo
+    public class ErrorInfo
     {
         [JsonName("error_code")]
         public string ErrorCode { get; set; }

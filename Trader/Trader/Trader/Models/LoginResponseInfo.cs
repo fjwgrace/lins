@@ -21,5 +21,6 @@ namespace Trader.Models
         public string Token { get; set; }
         [JsonName("username")]
         public string UserName { get; set; }
+
     }
 }
