@@ -17,9 +17,9 @@ namespace Trader.Views
     /// <summary>
     /// TradWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class TradWindow : Window
+    public partial class TradeWindow : HandyControl.Controls.Window
     {
-        public TradWindow()
+        public TradeWindow()
         {
             InitializeComponent();
         }

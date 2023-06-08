@@ -4,7 +4,21 @@
              xmlns:local="clr-namespace:Trader"
              StartupUri="Views/LoginWindow.xaml">
     <Application.Resources>
+        <!--<ResourceDictionary>
+            --><!-- 深色主题 --><!--
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
+            --><!-- 浅色主题 --><!--
+            <ResourceDictionary x:Key="LightTheme">
+                <SolidColorBrush x:Key="BackgroundBrush" Color="#F5F5F5"/>
+                <SolidColorBrush x:Key="ForegroundBrush" Color="#333333"/>
+                <SolidColorBrush x:Key="AccentBrush" Color="#007ACC"/>
+                --><!-- 其他颜色值 --><!--
+            </ResourceDictionary>
+        </ResourceDictionary>-->
     </Application.Resources>
+
 </Application>
 

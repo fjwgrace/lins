@@ -43,7 +43,7 @@
     <Reference Include="EasyHttp, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EasyHttp.1.7.0\lib\net40\EasyHttp.dll</HintPath>
     </Reference>
-    <Reference Include="HandyControl, Version=3.4.0.0, Culture=neutral, PublicKeyToken=45be8712787a1e5b, processorArchitecture=MSIL">
+    <Reference Include="HandyControl">
       <HintPath>..\packages\HandyControl.3.4.0\lib\net48\HandyControl.dll</HintPath>
     </Reference>
     <Reference Include="JsonFx, Version=2.0.1209.2802, Culture=neutral, PublicKeyToken=315052dd637f8a52, processorArchitecture=MSIL">
@@ -124,8 +124,8 @@
     </Compile>
     <Compile Include="Core\DataCenter.cs" />
     <Compile Include="Core\SystemInfoProvider.cs" />
-    <Compile Include="Views\TradWindow.xaml.cs">
-      <DependentUpon>TradWindow.xaml</DependentUpon>
+    <Compile Include="Views\TradeWindow.xaml.cs">
+      <DependentUpon>TradeWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\ListWindow.xaml">
       <SubType>Designer</SubType>
@@ -135,7 +135,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TradWindow.xaml">
+    <Page Include="Views\TradeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

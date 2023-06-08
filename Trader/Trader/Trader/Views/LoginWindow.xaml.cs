@@ -30,17 +30,22 @@ namespace Trader.Views
 
         private async void LoginWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            LoginRequestInfo loginRequestInfo = new LoginRequestInfo();
-            loginRequestInfo.IPAddress = (await SystemInfoProvider.GetIPAddress()).First();
-            loginRequestInfo.CPUID = await SystemInfoProvider.GetCPUID();
-            loginRequestInfo.HdSN=await SystemInfoProvider.GetHDSN();
-            loginRequestInfo.Mac=await SystemInfoProvider.GetMac();
-            loginRequestInfo.UserName = "1880021060";
-            loginRequestInfo.Password = "123456";
-            var result = await DataCenter.Login(loginRequestInfo);
-            Console.WriteLine(result);
-            //var result2=await DataCenter.GetPositions(result.Info.AccountID,result.Info.UserName.Split)
-
+            //LoginRequestInfo loginRequestInfo = new LoginRequestInfo();
+            //loginRequestInfo.IPAddress = (await SystemInfoProvider.GetIPAddress()).First();
+            //loginRequestInfo.CPUID = await SystemInfoProvider.GetCPUID();
+            //loginRequestInfo.HdSN=await SystemInfoProvider.GetHDSN();
+            //loginRequestInfo.Mac=await SystemInfoProvider.GetMac();
+            //loginRequestInfo.UserName = "1880021060";
+            //loginRequestInfo.Password = "123456";
+            //var result = await DataCenter.Login(loginRequestInfo);
+            //Console.WriteLine(result);
+            //result.Info.AccountID = result.Info.UserName;
+            //var result2 = await DataCenter.GetPositions(result.Info.AccountID, result.Info.UserName);
+            //Console.WriteLine(result2);
+            //var result3=await  DataCenter.GetOrders(result.Info.AccountID, result.Info.UserName);
+            //Console.WriteLine(result3);
+            //var result4= await DataCenter.GetDeals(result.Info.AccountID, result.Info.UserName);
+            //Console.WriteLine(result4);
         }
     }
 }

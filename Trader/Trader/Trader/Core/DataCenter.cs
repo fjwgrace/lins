@@ -73,9 +73,10 @@ namespace Trader.Core
             try
             {
                 CheckToken();
-                string url = string.Format("{0}/:{1}/:{2}/positions", baseUrl, fundAccountId, username);
+                string url = string.Format("{0}/stock/{1}/{2}/positions", baseUrl, fundAccountId, username);
                 var http = new HttpClient();
-                http.Request.AddExtraHeader("token", GlobalLogin.Token);
+                
+                http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
                 HttpResponse response = null;
                 PositionResponse result = new PositionResponse();
                 await Task.Run(() =>
@@ -110,9 +111,9 @@ namespace Trader.Core
             try
             {
                 CheckToken();
-                string url = string.Format("{0}/:{1}/:{2}/orders", baseUrl, fundAccountId, username);
+                string url = string.Format("{0}/stock/{1}/{2}/orders", baseUrl, fundAccountId, username);
                 var http = new HttpClient();
-                http.Request.AddExtraHeader("token", GlobalLogin.Token);
+                http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
                 HttpResponse response = null;
                 OrderResponse result = new OrderResponse();
                 await Task.Run(() =>
@@ -147,9 +148,9 @@ namespace Trader.Core
             try
             {
                 CheckToken();
-                string url = string.Format("{0}/:{1}/:{2}/matches", baseUrl, fundAccountId, username);
+                string url = string.Format("{0}/stock/{1}/{2}/matches", baseUrl, fundAccountId, username);
                 var http = new HttpClient();
-                http.Request.AddExtraHeader("token", GlobalLogin.Token);
+                http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
                 HttpResponse response = null;
                 DealResponse result = new DealResponse();
                 await Task.Run(() =>
