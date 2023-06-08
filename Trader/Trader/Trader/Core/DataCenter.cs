@@ -72,9 +72,10 @@ namespace Trader.Core
         {
             try
             {
+                CheckToken();
                 string url = string.Format("{0}/:{1}/:{2}/positions", baseUrl, fundAccountId, username);
                 var http = new HttpClient();
-                
+                http.Request.AddExtraHeader("token", GlobalLogin.Token);
                 HttpResponse response = null;
                 PositionResponse result = new PositionResponse();
                 await Task.Run(() =>
@@ -108,8 +109,10 @@ namespace Trader.Core
         {
             try
             {
+                CheckToken();
                 string url = string.Format("{0}/:{1}/:{2}/orders", baseUrl, fundAccountId, username);
                 var http = new HttpClient();
+                http.Request.AddExtraHeader("token", GlobalLogin.Token);
                 HttpResponse response = null;
                 OrderResponse result = new OrderResponse();
                 await Task.Run(() =>
@@ -143,8 +146,10 @@ namespace Trader.Core
         {
             try
             {
+                CheckToken();
                 string url = string.Format("{0}/:{1}/:{2}/matches", baseUrl, fundAccountId, username);
                 var http = new HttpClient();
+                http.Request.AddExtraHeader("token", GlobalLogin.Token);
                 HttpResponse response = null;
                 DealResponse result = new DealResponse();
                 await Task.Run(() =>
@@ -166,6 +171,14 @@ namespace Trader.Core
             {
                 Log.Logger.Error(string.Format("获取成交出错,{0}", e.Message));
                 return null;
+            }
+        }
+
+        private static void CheckToken( )
+        {
+            if (string.IsNullOrEmpty(GlobalLogin?.Token))
+            {
+                throw new Exception("非法请求，token为空");
             }
         }
     }

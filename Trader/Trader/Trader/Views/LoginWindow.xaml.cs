@@ -39,6 +39,7 @@ namespace Trader.Views
             loginRequestInfo.Password = "123456";
             var result = await DataCenter.Login(loginRequestInfo);
             Console.WriteLine(result);
+            //var result2=await DataCenter.GetPositions(result.Info.AccountID,result.Info.UserName.Split)
 
         }
     }
