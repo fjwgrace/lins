@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\yszx8\source\lins\Trader\Trader\Trader\obj\Debug\
+D:\private\lins\Trader\Trader\Trader\obj\Debug\
 Trader
 none
 false
 DEBUG;TRACE
-C:\Users\yszx8\source\lins\Trader\Trader\Trader\App.xaml
-32002154073
+D:\private\lins\Trader\Trader\Trader\App.xaml
+41414566512
 
-25-658252608
-31-1130203635
-Views\ListWindow.xaml;Views\LoginWindow.xaml;Views\TradeWindow.xaml;
+26-146403527
+33126535872
+Views\ListWindow.xaml;Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\TradeWindow.xaml;
 
 False
 

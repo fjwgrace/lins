@@ -13,22 +13,31 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Trader.Core;
 using Trader.Models;
+using Trader.ViewModels;
 
 namespace Trader.Views
 {
     /// <summary>
     /// LoginWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class LoginWindow : HandyControl.Controls.Window
+    public partial class LoginWindow :Window
     {
+        LoginViewModel viewModel;
+
         public LoginWindow()
         {
             InitializeComponent();
-            Log.Logger.Information("It's just a test");
+            viewModel = new LoginViewModel();
+            this.DataContext = viewModel;
             this.Loaded += LoginWindow_Loaded;
+            viewModel.SetDialogResult += SetDialogRsult;
         }
-
-        private async void LoginWindow_Loaded(object sender, RoutedEventArgs e)
+        void SetDialogRsult(bool? result)
+        {
+            this.DialogResult = result;
+            this.Close();
+        }
+        private  void LoginWindow_Loaded(object sender, RoutedEventArgs e)
         {
             //LoginRequestInfo loginRequestInfo = new LoginRequestInfo();
             //loginRequestInfo.IPAddress = (await SystemInfoProvider.GetIPAddress()).First();
@@ -46,6 +55,23 @@ namespace Trader.Views
             //Console.WriteLine(result3);
             //var result4= await DataCenter.GetDeals(result.Info.AccountID, result.Info.UserName);
             //Console.WriteLine(result4);
+        }
+        private void MoveWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Password_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
+            viewModel.Password = passwordBox.Password.ToString();
+            btnLogin.Command.CanExecute(null);
+
         }
     }
 }
