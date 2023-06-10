@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Media.Animation;
 using Trader.Models;
 
@@ -19,7 +20,7 @@ namespace Trader.Core
         static string dealUrl { get; set; } = string.Empty;
         static string baseUrl { get; set; } = string.Empty;
 
-        static LoginResponseInfo GlobalLogin { get; set; }
+        public static LoginResponseInfo GlobalLogin { get; set; }
 
         static DataCenter()
         {
@@ -87,6 +88,11 @@ namespace Trader.Core
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     result.Info = response.StaticBody<List<Position>>();
+                    for(int i=0;i<result.Info.Count;i++)
+                    {
+                        result.Info[i].index = i + 1;
+                    }
+                       
                 }
                 else
                 {
@@ -124,6 +130,10 @@ namespace Trader.Core
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     result.Info = response.StaticBody<List<Order>>();
+                    for (int i = 0; i < result.Info.Count; i++)
+                    {
+                        result.Info[i].index = i + 1;
+                    }
                 }
                 else
                 {
@@ -161,6 +171,10 @@ namespace Trader.Core
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     result.Info = response.StaticBody<List<Deal>>();
+                    for (int i = 0; i < result.Info.Count; i++)
+                    {
+                        result.Info[i].index = i + 1;
+                    }
                 }
                 else
                 {

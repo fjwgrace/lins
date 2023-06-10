@@ -9,6 +9,7 @@ namespace Trader.Models
 {
     public class Position
     {
+        public int index { get; set; }
         public string fund_account_id { get; set; }
         public string inner_account_id { get; set; }
         public string username { get; set; }
@@ -23,9 +24,11 @@ namespace Trader.Models
         public UInt64 available { get; set; }
         public UInt64 buy_frozen { get; set; }
         public UInt64 sell_frozen { get; set; }
-        public double buy_cost_price { get; set; }
-        public double sell_cost_price { get;set; }
-        public double total_cost_price { get; set; }
+        public double buy_average_price { get; set; }
+        public double sell_average_price { get;set; }
+        public double total_average_price { get; set; }
+        public double last_price { get; set; }
+        public double cost_price { get; set; }
         public UInt64 buy_filled_quantity { get; set; }
         public UInt64 sell_filled_quantity { get; set; }
         public double buy_fee {  get; set; }

@@ -10,24 +10,28 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Trader.ViewModels;
 
 namespace Trader.Views
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// Deal.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DealView : UserControl
     {
-        public MainWindow()
+        DealViewModel viewModel;
+        public DealView()
         {
-            LoginWindow loginWnd = new LoginWindow();
-            loginWnd.ShowDialog();
-            if (loginWnd.DialogResult != true)
-            {
-                this.Close();
-            }
             InitializeComponent();
+            viewModel = new DealViewModel();
+            this.DataContext = viewModel;
+        }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.LoadData();
         }
     }
 }

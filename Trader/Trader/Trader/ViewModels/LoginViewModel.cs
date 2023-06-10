@@ -46,6 +46,10 @@ namespace Trader.ViewModels
         public LoginViewModel() 
         {
             LoginRequestInfo = new LoginRequestInfo();
+            LoginRequestInfo.UserName = "1880021060";
+            LoginRequestInfo.Password = "123456";
+
+
         }
         public bool _isSuccess;
         public bool IsSuccess
