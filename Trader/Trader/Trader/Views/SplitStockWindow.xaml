@@ -35,20 +35,20 @@
                 <ComboBox x:Name="cboAccount"  Width="150" ItemsSource="{Binding Traders}" md:HintAssist.Hint="交易员账号" SelectedItem="{Binding CurrentTrader}"/>
             </StackPanel>
             <StackPanel  Orientation="Horizontal" Margin="0,10,0,0">
-                <TextBlock Text="授权数量"  VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
-                <TextBox Width="100"  Text="{Binding Qty}"  md:HintAssist.Hint="授权数量" />
+                <TextBlock Text="授权数量    "  VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
+                <TextBox Width="100"  Text="{Binding Qty}"  md:HintAssist.Hint="授权数量"  InputMethod.IsInputMethodEnabled="False" PreviewTextInput="TextBox_PreviewTextInput"/>
             </StackPanel>
             <StackPanel  Orientation="Horizontal" Margin="0,10,0,0" x:Name="bugPanel">
-                <TextBlock Text="买入模式"  VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
+                <TextBlock Text="买入模式    "  VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
                 <ComboBox x:Name="cboBuyMode"  Width="150" ItemsSource="{Binding BuyModes}" SelectedItem="{Binding BuyMode}" md:HintAssist.Hint="买入模式"/>
             </StackPanel>
             <StackPanel  Orientation="Horizontal" Margin="0,10,0,0" x:Name="sellPanel">
-                <TextBlock Text="卖出模式"  VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
+                <TextBlock Text="卖出模式    "  VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
                 <ComboBox x:Name="cboSellMode"  Width="150" ItemsSource="{Binding SellModes}" SelectedItem="{Binding SellMode}" md:HintAssist.Hint="卖出模式"/>
             </StackPanel>
             <StackPanel  Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="最后平仓日"  VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
-                <DatePicker Width="140"
+                <DatePicker Width="140" 
                     md:DatePickerAssist.OutlinedBorderInactiveThickness="1"
                     md:HintAssist.FloatingOffset="0,-22"
                     md:HintAssist.Hint="日期选择" Style="{StaticResource MaterialDesignOutlinedDatePicker}" Text="{Binding CloseDate}" />
