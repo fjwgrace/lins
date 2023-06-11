@@ -27,7 +27,10 @@ namespace Trader.Views
             {
                 this.Close();
             }
-            InitializeComponent();
+            else
+            {
+                InitializeComponent();
+            }
         }
     }
 }

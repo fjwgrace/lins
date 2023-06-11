@@ -15,10 +15,10 @@ namespace Trader.Core
     internal class DataCenter
     {
         static string loginUrl { get; set; } = string.Empty;
-        static string positionUrl { get; set; } = string.Empty;
         static string orderUrl { get; set; } = string.Empty;
         static string dealUrl { get; set; } = string.Empty;
         static string baseUrl { get; set; } = string.Empty;
+        static string positonSettingUrl { get; set; } = string.Empty;
 
         public static LoginResponseInfo GlobalLogin { get; set; }
 
@@ -28,6 +28,7 @@ namespace Trader.Core
             {
                 baseUrl = ConfigurationManager.AppSettings["server"];
                 loginUrl = string.Format("{0}/sign_in", baseUrl);
+                positonSettingUrl= string.Format("{0}/position_settings", baseUrl);
             }
             catch(Exception e)
             {
@@ -194,6 +195,91 @@ namespace Trader.Core
             if (string.IsNullOrEmpty(GlobalLogin?.Token))
             {
                 throw new Exception("非法请求，token为空");
+            }
+        }
+
+        public static async Task<PositionSettingResponse> UpdatePositionSetting(PositionSetting data,string operate)
+        {
+            try
+            {
+                var http = new HttpClient();
+                http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
+                HttpResponse response = null;
+                PositionSettingResponse result = new PositionSettingResponse();
+                await Task.Run(() =>
+                {
+                    if (operate == "POST")
+                    {
+                        response = http.Post(positonSettingUrl, data, HttpContentTypes.ApplicationJson);
+                    }
+                    else if(operate=="PUT")
+                    {
+                        response=http.Put(positonSettingUrl, data, HttpContentTypes.ApplicationJson);
+           
+                    }
+                    else if(operate=="DELETE")
+                    {
+                        response = http.Delete(positonSettingUrl, data);
+                    }
+                });
+                result.Status = response.StatusCode;
+
+                if ((operate=="POST")&&(response.StatusCode == System.Net.HttpStatusCode.Created))
+                {
+                    return result;
+                }
+                else if((operate=="PUT")&&(response.StatusCode==System.Net.HttpStatusCode.NoContent))
+                {
+                    return result;
+                }
+                else if((operate=="DELETE")&&(response.StatusCode==System.Net.HttpStatusCode.NoContent))
+                {
+                    return result;
+                }
+                else
+                {
+                    result.Error = response.StaticBody<ErrorInfo>();
+                }
+                return result;
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(string.Format("操作符{0},分券出错,{1}", operate,e.Message));
+                return null;
+            }
+        }
+
+        public static async Task<PositionSettingResponse> GetPositionSetting( )
+        {
+            try
+            {
+                var http = new HttpClient();
+                http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
+                HttpResponse response = null;
+                PositionSettingResponse result = new PositionSettingResponse();
+                await Task.Run(() =>
+                {
+                    response = http.Get(positonSettingUrl);
+                });
+                result.Status = response.StatusCode;
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    result.Info = response.StaticBody<List<PositionSetting>>();
+                    for (int i = 0; i < result.Info.Count; i++)
+                    {
+                        result.Info[i].index = i + 1;
+                    }
+                }
+                else
+                {
+                    result.Error = response.StaticBody<ErrorInfo>();
+                }
+                return result;
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(string.Format("获取分券信息出错,{0}", e.Message));
+                return null;
             }
         }
     }

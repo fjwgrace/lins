@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Trader.Models
 {
-    internal class PositionSetting
+    public class PositionSetting
     {
+        public int index { get; set; }
         public string id { get; set; }
         public string username { get; set; }
         public string symbol { get; set; }

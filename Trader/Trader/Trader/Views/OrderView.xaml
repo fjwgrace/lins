@@ -9,7 +9,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="1000">
     <UserControl.Resources>
-        <cvt:ProfitColorConvert x:Key="profitColorConvert"/>
+        <cvt:EntrustDirConvert x:Key="entrustDirConvert"/>
+        <cvt:EntrustStateConvert x:Key="entrustStateConvert"/>
+        <cvt:EntrustDirColorConvert x:Key="entrustDirColorConvert"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -33,13 +35,22 @@
                 <DataGridTextColumn Header="#" Binding="{Binding index}" />
                 <DataGridTextColumn Header="证券代码" Binding="{Binding symbol}" />
                 <DataGridTextColumn Header="证券名称" Binding="{Binding security_name}" Foreground="{StaticResource StockNameDefaultBrush}" />
-                <DataGridTextColumn Header="委托方向" Binding="{Binding side}" />
+                <DataGridTemplateColumn Header="委托方向">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                              Foreground="{Binding side,Converter={StaticResource entrustDirColorConvert}}" 
+                                Text="{Binding side,Converter={StaticResource entrustDirConvert}}">
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="委托价格" Binding="{Binding price}" />
                 <DataGridTextColumn Header="委托数量" Binding="{Binding quantity }" />
                 <DataGridTextColumn Header="成交均价" Binding="{Binding average_price}" />
                 <DataGridTextColumn Header="成交数量" Binding="{Binding filled_quantity}" />
                 <DataGridTextColumn Header="剩余数量" Binding="{Binding leaves_quantity}" />
-                <DataGridTextColumn Header="委托状态" Binding="{Binding status }" />
+                <DataGridTextColumn Header="委托状态" Binding="{Binding status ,Converter={StaticResource entrustStateConvert}}" />
                 <DataGridTextColumn Header="错误代码" Binding="{Binding error_code}"/>
                 <DataGridTextColumn Header="错误信息" Binding="{Binding error_text}" />
                 <DataGridTextColumn Header="提交时间" Binding="{Binding submit_time}" />

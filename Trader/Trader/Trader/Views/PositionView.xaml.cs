@@ -36,12 +36,21 @@ namespace Trader.Views
 
         private void MenuItemStock_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.ExecuteSplitStockCommand( );
+            SplitStockWindow sw = new SplitStockWindow(viewModel.CurrentPositon);
+            sw.ShowDialog();
+            if(sw.DialogResult==true)
+            {
+                sw.Owner = null;
+                sw = null;
+            }
         }
 
         private void MenuItemData_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.ExportToExcel(positionGrid);
+            Task.Run(() =>
+            {
+                viewModel.ExportToExcel(positionGrid);
+            });
         }
     }
 }

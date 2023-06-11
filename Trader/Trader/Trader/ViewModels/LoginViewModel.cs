@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security;
 using System.Text;
@@ -46,10 +47,14 @@ namespace Trader.ViewModels
         public LoginViewModel() 
         {
             LoginRequestInfo = new LoginRequestInfo();
-            LoginRequestInfo.UserName = "1880021060";
-            LoginRequestInfo.Password = "123456";
-
-
+            try
+            {
+                LoginRequestInfo.UserName = ConfigurationManager.AppSettings["preLoginName"];
+            }
+            catch(Exception ex)
+            {
+                Log.Logger.Error("读取历史登录信息出错", ex);
+            }
         }
         public bool _isSuccess;
         public bool IsSuccess
@@ -94,7 +99,22 @@ namespace Trader.ViewModels
                 IsVisible = false;
                 Message = "";
                 IsSuccess = true;
+                UpdateConfig();
                 SetDialogResult.Invoke(true);
+            }
+        }
+        private void UpdateConfig()
+        {
+            try
+            {
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                config.AppSettings.Settings["preLoginName"].Value = UserName;
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
+            }
+            catch(Exception e)
+            {
+                Log.Logger.Error("更新登录记录出错", e);
             }
         }
         private bool CanExecuteCommand( )

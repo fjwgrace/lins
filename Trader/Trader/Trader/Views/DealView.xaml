@@ -9,7 +9,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="1000">
     <UserControl.Resources>
-        <cvt:ProfitColorConvert x:Key="profitColorConvert"/>
+        <cvt:EntrustDirConvert x:Key="entrustDirConvert"/>
+        <cvt:EntrustStateConvert x:Key="entrustStateConvert"/>
+        <cvt:EntrustDirColorConvert x:Key="entrustDirColorConvert"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -33,7 +35,17 @@
                 <DataGridTextColumn Header="#" Binding="{Binding index}" />
                 <DataGridTextColumn Header="证券代码" Binding="{Binding symbol}"/>
                 <DataGridTextColumn Header="证券名称" Binding="{Binding security_name}" Foreground="{StaticResource StockNameDefaultBrush}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="委托方向" Binding="{Binding side  }" />
+                <DataGridTemplateColumn Header="委托方向">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                              Foreground="{Binding side,Converter={StaticResource entrustDirColorConvert}}" 
+                                Text="{Binding side,Converter={StaticResource entrustDirConvert}}">
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <DataGridTextColumn Header="成交价" Binding="{Binding price  }" />
                 <DataGridTextColumn Header="成交数量" Binding="{Binding quantity }" />
                 <DataGridTextColumn Header="成交时间" Binding="{Binding match_time}" />

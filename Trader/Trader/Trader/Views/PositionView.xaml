@@ -31,7 +31,7 @@
         <DataGrid x:Name="positionGrid"  AutoGenerateColumns="False" Grid.Row="1" ItemsSource="{Binding Positions}" SelectedItem="{Binding CurrentPositon }">
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="分券操作" Click="MenuItemStock_Click"  />
+                    <MenuItem Header="分券持仓" Click="MenuItemStock_Click"  />
                     <MenuItem Header="数据导出" Click="MenuItemData_Click" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
@@ -49,8 +49,26 @@
                 <DataGridTextColumn Header="卖出成交金额" Binding="{Binding sell_filled_turnover}" Foreground="{StaticResource MoneyForegroundLight}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="买入成交费用" Binding="{Binding buy_fee}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="卖出成交费用" Binding="{Binding sell_fee}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="实现盈亏" Binding="{Binding realize_profit }" Foreground="{Binding realize_profit, Converter={StaticResource profitColorConvert}}" IsReadOnly="True" />
-                <DataGridTextColumn Header="浮动盈亏" Binding="{Binding floating_profit}" Foreground="{Binding floating_profit, Converter={StaticResource profitColorConvert}}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="实现盈亏">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                              Foreground="{Binding realize_profit,Converter={StaticResource profitColorConvert}}" 
+                                Text="{Binding realize_profit}">
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="浮动盈亏">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                              Foreground="{Binding floating_profit,Converter={StaticResource profitColorConvert}}" 
+                                Text="{Binding floating_profit}">
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="最新价" Binding="{Binding last_price}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="成本价" Binding="{Binding cost_price }" IsReadOnly="True"/>
                 <DataGridTextColumn Header="交易员账号" Binding="{Binding username }" IsReadOnly="True"/>

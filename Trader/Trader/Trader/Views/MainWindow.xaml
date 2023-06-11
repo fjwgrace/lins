@@ -19,6 +19,9 @@
             <TabItem Header="成交">
                 <local:DealView/>
             </TabItem>
+            <!--<TabItem Header="分券">
+                <local:SplitListView/>
+            </TabItem>-->
         </TabControl>
     </Grid>
 </Window>

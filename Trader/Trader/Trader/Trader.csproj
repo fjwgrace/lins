@@ -110,6 +110,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converts\EntrustDirColorConvert.cs" />
+    <Compile Include="Converts\EntrustStateConvert.cs" />
+    <Compile Include="Converts\EntrustDirConvert.cs" />
     <Compile Include="Converts\ProfitColorConvert.cs" />
     <Compile Include="Core\Log.cs" />
     <Compile Include="Models\Deal.cs" />
@@ -120,10 +123,14 @@
     <Compile Include="Models\Position.cs" />
     <Compile Include="Models\PositionResponse.cs" />
     <Compile Include="Models\PositionSetting.cs" />
+    <Compile Include="Models\PositionSettingResponse.cs" />
+    <Compile Include="NumericValidationRule.cs" />
     <Compile Include="ViewModels\DealViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\PositionSetViewModel.cs" />
     <Compile Include="ViewModels\PositionViewModel.cs" />
     <Compile Include="ViewModels\OrderVewModel.cs" />
+    <Compile Include="ViewModels\SplitListViewModel.cs" />
     <Compile Include="Views\DealView.xaml.cs">
       <DependentUpon>DealView.xaml</DependentUpon>
     </Compile>
@@ -145,8 +152,11 @@
     <Compile Include="Views\PositionView.xaml.cs">
       <DependentUpon>PositionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TradeWindow.xaml.cs">
-      <DependentUpon>TradeWindow.xaml</DependentUpon>
+    <Compile Include="Views\SplitListView.xaml.cs">
+      <DependentUpon>SplitListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SplitStockWindow.xaml.cs">
+      <DependentUpon>SplitStockWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Style\ColorStyle.xaml">
       <SubType>Designer</SubType>
@@ -172,7 +182,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TradeWindow.xaml">
+    <Page Include="Views\SplitListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SplitStockWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -209,7 +223,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Pictures\Loginbackground.jpg" />
   </ItemGroup>
