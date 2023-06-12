@@ -1,11 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Trader.Core;
+using Trader.Message;
 using Trader.Models;
 
 namespace Trader.ViewModels
@@ -77,8 +81,10 @@ namespace Trader.ViewModels
             get { return _qty; }
             set { SetProperty(ref _qty, value); }
         }
+       public bool IsCreate { get; set; }
        public PositionSetViewModel(Position data)
         {
+            IsCreate = true;
             var usernames = DataCenter.GlobalLogin.UserNames.Split(',');
             Traders = new ObservableCollection<string>(usernames);
             Traders.Add("strategy");
@@ -94,6 +100,7 @@ namespace Trader.ViewModels
 
         public PositionSetViewModel(PositionSetting data)
         {
+            IsCreate = false;
             var usernames = DataCenter.GlobalLogin.UserNames.Split(',');
             Traders = new ObservableCollection<string>(usernames);
             Traders.Add("strategy");
@@ -101,11 +108,35 @@ namespace Trader.ViewModels
             StockCode = data.symbol;
             StockName = data.security_name;
             Qty = data.authorized_qty;
-            BuyMode = data.buy_model;
-            SellMode = data.sell_model;
             CloseDate = data.last_closing_date;
-            BuyMode = "买入";
-            SellMode = "卖出";
+            string bm = "";
+            switch (data.buy_model)
+            {
+                case "B":
+                    bm = "买入";
+                    break;
+                case "FB":
+                    bm = "融资买入";
+                    break;
+                case "BC":
+                    bm = "买券还券";
+                    break;
+            }
+            string sm = "";
+            switch (data.sell_model)
+            {
+                case "S":
+                    sm = "卖出";
+                    break;
+                case "SS":
+                    sm = "融资卖出";
+                    break;
+                case "SR":
+                    sm = "卖券还款";
+                    break;
+            }
+            BuyMode = bm;
+            SellMode = sm;
         }
         
         public async void Create( )
@@ -156,8 +187,67 @@ namespace Trader.ViewModels
             else
             {
                 SetDialogResult.Invoke(true);
+                WeakReferenceMessenger.Default.Send(new PositionMsg(null));
             }
 
+        }
+
+        public async void Modify( )
+        {
+            try
+            {
+                IsVisible = false;
+                PositionSetting ps = new PositionSetting();
+                ps.symbol = StockCode;
+                ps.security_name = StockName;
+                ps.username = CurrentTrader;
+                ps.id = DataCenter.GlobalLogin.UserName;
+                ps.last_closing_date = CloseDate;
+                ps.authorized_qty = Qty;
+                string bm = "B";
+                switch (BuyMode)
+                {
+                    case "买入":
+                        bm = "B";
+                        break;
+                    case "融资买入":
+                        bm = "FB";
+                        break;
+                    case "买券还券":
+                        bm = "BC";
+                        break;
+                }
+                string sm = "S";
+                switch (SellMode)
+                {
+                    case "卖出":
+                        sm = "S";
+                        break;
+                    case "融资卖出":
+                        sm = "SS";
+                        break;
+                    case "卖券还款":
+                        sm = "SR";
+                        break;
+                }
+                ps.buy_model = bm;
+                ps.sell_model = sm;
+                var result = await DataCenter.UpdatePositionSetting(ps, "PUT");
+                if (result.Status != System.Net.HttpStatusCode.NoContent)
+                {
+                    Message = result.Error.ErrorText;
+                    IsVisible = true;
+                }
+                else
+                {
+                    SetDialogResult.Invoke(true);
+                   WeakReferenceMessenger.Default.Send(new PositionSettingMsg(ps));
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error("修改分券数据出错", ex);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,62 +11,20 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Trader.Core;
+using Trader.Message;
 using Trader.Models;
 
 namespace Trader.ViewModels
 {
     internal class PositionViewModel:ObservableObject
     {
-        private ICommand _refreshCommand;
-        public ICommand RefreshCommand
-        {
-            get
-            {
-                if (_refreshCommand == null)
-                {
-                    _refreshCommand = new RelayCommand(ExecuteCommand);
-                }
-                return _refreshCommand;
-            }
-        }
+        public ICommand RefreshCommand { get; private set; }
+
         public  void ExecuteCommand()
         {
             LoadData();
         }
 
-        private ICommand _splitStockCommand;
-        public ICommand SplitStockCommand
-        {
-            get
-            {
-                if (_splitStockCommand == null)
-                {
-                    _splitStockCommand = new RelayCommand(ExecuteSplitStockCommand);
-                }
-                return _splitStockCommand;
-            }
-        }
-        public void ExecuteSplitStockCommand()
-        {
-
-        }
-
-        private ICommand _outputDataCommand;
-        public ICommand OutputDataCommand
-        {
-            get
-            {
-                if (_outputDataCommand == null)
-                {
-                    _outputDataCommand = new RelayCommand(ExecuteOutputDataCommand);
-                }
-                return _refreshCommand;
-            }
-        }
-        public void ExecuteOutputDataCommand( )
-        {
-
-        }
         public void ExportToExcel(DataGrid grid)
         {
             Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
@@ -91,8 +50,6 @@ namespace Trader.ViewModels
             }
         }
 
-
-
         public ObservableCollection<string> _accounts;
 
         public ObservableCollection<string> Accounts
@@ -115,6 +72,7 @@ namespace Trader.ViewModels
         }
         public PositionViewModel()
         {
+            if (DataCenter.GlobalLogin == null) { return; }
             var usernames = DataCenter.GlobalLogin.UserNames.Split(',');
             Accounts = new ObservableCollection<string>();
             Accounts.Add(DataCenter.GlobalLogin.UserName);
@@ -122,8 +80,16 @@ namespace Trader.ViewModels
             Traders = new ObservableCollection<string>(usernames);
             TradeName = Traders.First();
             LoadData();
-        }
 
+            RefreshCommand = new RelayCommand(ExecuteCommand);
+
+
+            WeakReferenceMessenger.Default.Register<PositionSettingMsg>(this, (r, m) =>
+            {
+                LoadData(); 
+            });
+        }
+ 
         private string _username;
         public string UserName
         {

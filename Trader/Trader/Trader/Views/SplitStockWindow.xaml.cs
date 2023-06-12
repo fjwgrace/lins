@@ -44,6 +44,7 @@ namespace Trader.Views
             this.DataContext = viewModel;
             viewModel.SetDialogResult += ViewModel_SetDialogResult;
         }
+        
         private void MoveWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
@@ -56,7 +57,14 @@ namespace Trader.Views
 
         private void btnSplit_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.Create();
+            if (viewModel.IsVisible == true)
+            {
+                viewModel.Create();
+            }
+            else
+            {
+                viewModel.Modify();
+            }
         }
 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)

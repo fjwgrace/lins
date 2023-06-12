@@ -36,6 +36,11 @@ namespace Trader.Views
 
         private void MenuItemStock_Click(object sender, RoutedEventArgs e)
         {
+            if(viewModel.CurrentPositon==null)
+            {
+                MessageBox.Show("请选中一条记录进行分券操作");
+                return;
+            }
             SplitStockWindow sw = new SplitStockWindow(viewModel.CurrentPositon);
             sw.ShowDialog();
             if(sw.DialogResult==true)

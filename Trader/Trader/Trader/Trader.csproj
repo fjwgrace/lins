@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>2697650_apple_stock_finance_market_stock market_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommunityToolkit.Mvvm, Version=8.2.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
       <HintPath>..\packages\CommunityToolkit.Mvvm.8.2.0\lib\netstandard2.0\CommunityToolkit.Mvvm.dll</HintPath>
@@ -115,6 +118,8 @@
     <Compile Include="Converts\EntrustDirConvert.cs" />
     <Compile Include="Converts\ProfitColorConvert.cs" />
     <Compile Include="Core\Log.cs" />
+    <Compile Include="Message\PositionMsg.cs" />
+    <Compile Include="Message\PositionSettingMsg.cs" />
     <Compile Include="Models\Deal.cs" />
     <Compile Include="Models\DealResponse.cs" />
     <Compile Include="Models\LoginResponse.cs" />
@@ -225,6 +230,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Pictures\Loginbackground.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="2697650_apple_stock_finance_market_stock market_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\market_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\invest_market_stock_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CommunityToolkit.Mvvm.8.2.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.2.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />

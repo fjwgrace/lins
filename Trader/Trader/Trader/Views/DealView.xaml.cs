@@ -27,6 +27,7 @@ namespace Trader.Views
             InitializeComponent();
             viewModel = new DealViewModel();
             this.DataContext = viewModel;
+
         }
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)

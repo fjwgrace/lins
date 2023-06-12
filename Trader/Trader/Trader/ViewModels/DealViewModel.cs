@@ -14,18 +14,8 @@ namespace Trader.ViewModels
 {
     internal class DealViewModel : ObservableObject
     {
-        private ICommand _refreshCommand;
-        public ICommand RefreshCommand
-        {
-            get
-            {
-                if (_refreshCommand == null)
-                {
-                    _refreshCommand = new RelayCommand(ExecuteCommand);
-                }
-                return _refreshCommand;
-            }
-        }
+        public ICommand RefreshCommand { get; private set; }
+
         public void ExecuteCommand()
         {
             LoadData();
@@ -52,6 +42,7 @@ namespace Trader.ViewModels
         }
         public DealViewModel()
         {
+            if (DataCenter.GlobalLogin == null) { return; }
             var usernames = DataCenter.GlobalLogin.UserNames.Split(',');
             Accounts = new ObservableCollection<string>();
             Accounts.Add(DataCenter.GlobalLogin.UserName);
@@ -59,6 +50,7 @@ namespace Trader.ViewModels
             Traders = new ObservableCollection<string>(usernames);
             TradeName = Traders.First();
             LoadData();
+            RefreshCommand = new RelayCommand(ExecuteCommand);
         }
 
         private string _username;

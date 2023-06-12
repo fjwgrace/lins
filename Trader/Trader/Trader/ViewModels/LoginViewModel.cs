@@ -62,7 +62,7 @@ namespace Trader.ViewModels
             get { return _isSuccess; }
             set {SetProperty(ref _isSuccess, value);  }
         }
-        public async void ExecuteLoginCommand( )
+        public async void ExecuteLoginCommand()
         {
             IsVisible = false;
             Message = string.Empty;
@@ -76,32 +76,39 @@ namespace Trader.ViewModels
                 IsVisible = true;
                 Message = "密码不能为空";
             }
-           
-           var ts1 =Task.Run(()=>  SystemInfoProvider.GetIPAddress());
-           var ts2 =Task.Run(()=>  SystemInfoProvider.GetCPUID());
-           var ts3 = Task.Run(() => SystemInfoProvider.GetHDSN());
-           var ts4= Task.Run(() => SystemInfoProvider.GetMac());
+
+            var ts1 = Task.Run(() => SystemInfoProvider.GetIPAddress());
+            var ts2 = Task.Run(() => SystemInfoProvider.GetCPUID());
+            var ts3 = Task.Run(() => SystemInfoProvider.GetHDSN());
+            var ts4 = Task.Run(() => SystemInfoProvider.GetMac());
             Task.WaitAll(ts1, ts2, ts3, ts4);
 
             LoginRequestInfo.IPAddress = ts1.Result.FirstOrDefault();
             LoginRequestInfo.CPUID = ts2.Result;
             LoginRequestInfo.HdSN = ts3.Result;
             LoginRequestInfo.Mac = ts4.Result;
+            try
+            {
+                var result = await DataCenter.Login(LoginRequestInfo);
+                if (result.Status != System.Net.HttpStatusCode.OK)
+                {
+                    IsVisible = true;
+                    Message = result?.Error.ErrorText;
+                }
+                else
+                {
+                    IsVisible = false;
+                    Message = "";
+                    IsSuccess = true;
+                    UpdateConfig();
+                    SetDialogResult.Invoke(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error("ExecuteLoginCommand Error", ex);
+            }
 
-            var result = await DataCenter.Login(LoginRequestInfo);
-            if(result.Status!=System.Net.HttpStatusCode.OK)
-            {
-                IsVisible = true;
-                Message = result?.Error.ErrorText;
-            }
-            else
-            {
-                IsVisible = false;
-                Message = "";
-                IsSuccess = true;
-                UpdateConfig();
-                SetDialogResult.Invoke(true);
-            }
         }
         private void UpdateConfig()
         {

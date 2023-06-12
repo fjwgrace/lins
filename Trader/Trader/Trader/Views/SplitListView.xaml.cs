@@ -28,7 +28,6 @@ namespace Trader.Views
             viewModel = new SplitListViewModel();
             this.DataContext = viewModel;
         }
-
         private void MIRefresh_Click(object sender, RoutedEventArgs e)
         {
             viewModel.LoadData( );
@@ -36,7 +35,11 @@ namespace Trader.Views
 
         private void MIModify_Click(object sender, RoutedEventArgs e)
         {
-
+            if(viewModel.CurrentSetting==null)
+            {
+                MessageBox.Show("请选中一条记录进行操作");
+                return;
+            }
             SplitStockWindow win = new SplitStockWindow(viewModel.CurrentSetting);
         
             win.ShowDialog();
@@ -49,6 +52,11 @@ namespace Trader.Views
 
         private void MIDelete_Click(object sender, RoutedEventArgs e)
         {
+            if (viewModel.CurrentSetting == null)
+            {
+                MessageBox.Show("请选中一条记录进行操作");
+                return;
+            }
             viewModel.Delete();
         }
 

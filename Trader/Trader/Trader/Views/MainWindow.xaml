@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Trader.Views"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="" Height="550" Width="1600" Style="{StaticResource MaterialDesignWindow}" >
+        Title="" Height="550" Width="1600" Style="{StaticResource MaterialDesignWindow}" Icon="/Pictures/invest_market_stock_icon.ico ">
     <Grid>
         <TabControl TabStripPlacement="Left" Style="{StaticResource MaterialDesignTabControl}"  >
             <TabItem Header="持仓">
@@ -19,9 +19,9 @@
             <TabItem Header="成交">
                 <local:DealView/>
             </TabItem>
-            <!--<TabItem Header="分券">
+            <TabItem Header="分券">
                 <local:SplitListView/>
-            </TabItem>-->
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

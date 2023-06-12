@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Trader.Views"
         mc:Ignorable="d"
-        Title="分券持仓" Height="370" Width="350"
+        Title="分券持仓" Height="390" Width="340"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -19,10 +19,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="55"></RowDefinition>
+            <RowDefinition Height="63"></RowDefinition>
         </Grid.RowDefinitions>
         <Button Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Click="Close_Click" >
-            <md:PackIcon Kind="Close"/>
+            <md:PackIcon Kind="Close" Foreground="Red"/>
         </Button>
         
         <StackPanel Grid.Row="1" Margin="15,0,15,0">
@@ -32,25 +32,26 @@
             </StackPanel>
             <StackPanel  Orientation="Horizontal" Margin="0,20,0,0">
                 <TextBlock Text="交易员账号"  VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
-                <ComboBox x:Name="cboAccount"  Width="150" ItemsSource="{Binding Traders}" md:HintAssist.Hint="交易员账号" SelectedItem="{Binding CurrentTrader}"/>
+                <ComboBox x:Name="cboAccount"   Width="150" ItemsSource="{Binding Traders}" md:HintAssist.Hint="交易员账号" SelectedItem="{Binding CurrentTrader}"/>
             </StackPanel>
             <StackPanel  Orientation="Horizontal" Margin="0,10,0,0">
-                <TextBlock Text="授权数量    "  VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
-                <TextBox Width="100"  Text="{Binding Qty}"  md:HintAssist.Hint="授权数量"  InputMethod.IsInputMethodEnabled="False" PreviewTextInput="TextBox_PreviewTextInput"/>
+                <TextBlock Text="授权数量    " VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
+                <TextBox Width="100"   Text="{Binding Qty}"  md:HintAssist.Hint="授权数量"  InputMethod.IsInputMethodEnabled="False" PreviewTextInput="TextBox_PreviewTextInput"/>
             </StackPanel>
             <StackPanel  Orientation="Horizontal" Margin="0,10,0,0" x:Name="bugPanel">
-                <TextBlock Text="买入模式    "  VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
-                <ComboBox x:Name="cboBuyMode"  Width="150" ItemsSource="{Binding BuyModes}" SelectedItem="{Binding BuyMode}" md:HintAssist.Hint="买入模式"/>
+                <TextBlock Text="买入模式    " VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
+                <ComboBox x:Name="cboBuyMode"   Width="150" ItemsSource="{Binding BuyModes}" SelectedItem="{Binding BuyMode}" md:HintAssist.Hint="买入模式"/>
             </StackPanel>
             <StackPanel  Orientation="Horizontal" Margin="0,10,0,0" x:Name="sellPanel">
                 <TextBlock Text="卖出模式    "  VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
-                <ComboBox x:Name="cboSellMode"  Width="150" ItemsSource="{Binding SellModes}" SelectedItem="{Binding SellMode}" md:HintAssist.Hint="卖出模式"/>
+                <ComboBox x:Name="cboSellMode"   Width="150" ItemsSource="{Binding SellModes}" SelectedItem="{Binding SellMode}" md:HintAssist.Hint="卖出模式"/>
             </StackPanel>
             <StackPanel  Orientation="Horizontal" Margin="0,10,0,0">
-                <TextBlock Text="最后平仓日"  VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
+                <TextBlock Text="最后平仓日"   VerticalAlignment="Center" Margin="0,0,20,0"></TextBlock>
                 <DatePicker Width="140" 
                     md:DatePickerAssist.OutlinedBorderInactiveThickness="1"
                     md:HintAssist.FloatingOffset="0,-22"
+                    
                     md:HintAssist.Hint="日期选择" Style="{StaticResource MaterialDesignOutlinedDatePicker}" Text="{Binding CloseDate}" />
             </StackPanel>
             <StackPanel Margin="0,10">

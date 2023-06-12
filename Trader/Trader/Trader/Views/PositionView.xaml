@@ -11,6 +11,9 @@
     <UserControl.Resources>
         <cvt:ProfitColorConvert x:Key="profitColorConvert"/>
     </UserControl.Resources>
+    <UserControl.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding RefreshCommand}" />
+    </UserControl.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
@@ -22,17 +25,15 @@
             <ComboBox x:Name="cboAccount" FontSize="16" ItemsSource="{Binding Accounts}" md:HintAssist.Hint="资金账号" Margin="10,0,0,0" Width="110" SelectedItem="{Binding UserName}"/>
             <TextBlock Text="交易员账号" FontSize="16" Margin="30,0,0,0" VerticalAlignment="Center"/>
             <ComboBox x:Name="cboTrade" FontSize="16" ItemsSource="{Binding Traders}" md:HintAssist.Hint="交易员账号" Margin="10,0,0,0" Width="110" SelectedItem="{Binding TradeName}"/>
-            <Button x:Name="btnRefresh" HorizontalAlignment="Center" Width="90" Margin="20,0,0,0" Content="刷新(F5)" Click="btnRefresh_Click">
-                <Button.InputBindings>
-                    <KeyBinding Key="F5" Command="{Binding RefreshCommand}" />
-                </Button.InputBindings>
-            </Button>
+            <Button x:Name="btnRefresh" HorizontalAlignment="Center" Width="90" Margin="20,0,0,0" Content="刷新" Click="btnRefresh_Click"/>
+
         </StackPanel>
         <DataGrid x:Name="positionGrid"  AutoGenerateColumns="False" Grid.Row="1" ItemsSource="{Binding Positions}" SelectedItem="{Binding CurrentPositon }">
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="分券持仓" Click="MenuItemStock_Click"  />
-                    <MenuItem Header="数据导出" Click="MenuItemData_Click" />
+                    <MenuItem Header="分券持仓" Click="MenuItemStock_Click"/>
+                    <MenuItem Header="刷新" Click="btnRefresh_Click" />
+                    <MenuItem Header="数据导出" Click="MenuItemData_Click" Visibility="Collapsed" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
