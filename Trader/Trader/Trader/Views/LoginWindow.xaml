@@ -11,7 +11,7 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         MouseLeftButtonDown="MoveWindow_MouseLeftButtonDown"
-        FontFamily="Segoe UI Emoji">
+        FontFamily="Microsoft YaHei">
     <Grid>
     <Rectangle Height="280" VerticalAlignment="Top">
       <Rectangle.Fill>

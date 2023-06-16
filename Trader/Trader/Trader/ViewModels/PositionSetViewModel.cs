@@ -104,7 +104,7 @@ namespace Trader.ViewModels
             var usernames = DataCenter.GlobalLogin.UserNames.Split(',');
             Traders = new ObservableCollection<string>(usernames);
             Traders.Add("strategy");
-            CurrentTrader = Traders.First();
+            CurrentTrader = data.username;
             StockCode = data.symbol;
             StockName = data.security_name;
             Qty = data.authorized_qty;
@@ -179,15 +179,16 @@ namespace Trader.ViewModels
             ps.sell_model = sm;
 
             var result = await DataCenter.UpdatePositionSetting(ps,"POST");
-            if (result.Status != System.Net.HttpStatusCode.OK)
+            if (result.Status != System.Net.HttpStatusCode.Created)
             {
-                Message = result.Error.ErrorText;
+                Message = result.Error?.error_text;
                 IsVisible = true;
             }
             else
             {
-                SetDialogResult.Invoke(true);
+                IsVisible = false;
                 WeakReferenceMessenger.Default.Send(new PositionMsg(null));
+                SetDialogResult.Invoke(true);
             }
 
         }
@@ -235,13 +236,14 @@ namespace Trader.ViewModels
                 var result = await DataCenter.UpdatePositionSetting(ps, "PUT");
                 if (result.Status != System.Net.HttpStatusCode.NoContent)
                 {
-                    Message = result.Error.ErrorText;
+                    Message = result.Error?.error_text;
                     IsVisible = true;
                 }
                 else
-                {
+                { 
+                    WeakReferenceMessenger.Default.Send(new PositionSettingMsg(ps));
+                    WeakReferenceMessenger.Default.Send(new PositionMsg(null));
                     SetDialogResult.Invoke(true);
-                   WeakReferenceMessenger.Default.Send(new PositionSettingMsg(ps));
                 }
             }
             catch (Exception ex)

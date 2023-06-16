@@ -78,6 +78,8 @@ namespace Trader.ViewModels
             Accounts.Add(DataCenter.GlobalLogin.UserName);
             UserName = DataCenter.GlobalLogin.UserName;
             Traders = new ObservableCollection<string>(usernames);
+            Traders.Add("strategy");
+            Traders.Insert(0, UserName);
             TradeName = Traders.First();
             LoadData();
 

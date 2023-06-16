@@ -67,7 +67,7 @@ namespace Trader.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show(string.Format("删除分券数据出错:{0}", result.Error.ErrorText));
+                    MessageBox.Show(string.Format("删除分券数据出错:{0}", result.Error.error_text));
                 }
             }
             catch (Exception ex)

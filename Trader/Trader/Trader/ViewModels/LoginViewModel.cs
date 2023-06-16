@@ -93,7 +93,7 @@ namespace Trader.ViewModels
                 if (result.Status != System.Net.HttpStatusCode.OK)
                 {
                     IsVisible = true;
-                    Message = result?.Error.ErrorText;
+                    Message = result?.Error.error_text;
                 }
                 else
                 {

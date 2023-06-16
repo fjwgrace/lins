@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Media.Animation;
 using Trader.Models;
+using Flurl;
+using Flurl.Http;
+using Newtonsoft.Json;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http;
 
 namespace Trader.Core
 {
@@ -39,7 +45,7 @@ namespace Trader.Core
         {
             try
             {
-                var http=new HttpClient();
+                var http=new EasyHttp.Http.HttpClient();
                 HttpResponse response = null;
                 LoginResponse result = new LoginResponse();
                 await Task.Run(() =>
@@ -76,7 +82,7 @@ namespace Trader.Core
             {
                 CheckToken();
                 string url = string.Format("{0}/stock/{1}/{2}/positions", baseUrl, fundAccountId, username);
-                var http = new HttpClient();
+                var http = new EasyHttp.Http.HttpClient();
                 
                 http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
                 HttpResponse response = null;
@@ -119,7 +125,7 @@ namespace Trader.Core
             {
                 CheckToken();
                 string url = string.Format("{0}/stock/{1}/{2}/orders", baseUrl, fundAccountId, username);
-                var http = new HttpClient();
+                var http = new EasyHttp.Http.HttpClient();
                 http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
                 HttpResponse response = null;
                 OrderResponse result = new OrderResponse();
@@ -160,7 +166,7 @@ namespace Trader.Core
             {
                 CheckToken();
                 string url = string.Format("{0}/stock/{1}/{2}/matches", baseUrl, fundAccountId, username);
-                var http = new HttpClient();
+                var http = new EasyHttp.Http.HttpClient();
                 http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
                 HttpResponse response = null;
                 DealResponse result = new DealResponse();
@@ -202,44 +208,28 @@ namespace Trader.Core
         {
             try
             {
-                var http = new HttpClient();
-                http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
-                HttpResponse response = null;
                 PositionSettingResponse result = new PositionSettingResponse();
-                await Task.Run(() =>
+                HttpRequestMessage hrm = null;
+                var client = new System.Net.Http.HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GlobalLogin.Token);
+                if (operate == "POST")
                 {
-                    if (operate == "POST")
-                    {
-                        response = http.Post(positonSettingUrl, data, HttpContentTypes.ApplicationJson);
-                    }
-                    else if(operate=="PUT")
-                    {
-                        response=http.Put(positonSettingUrl, data, HttpContentTypes.ApplicationJson);
-           
-                    }
-                    else if(operate=="DELETE")
-                    {
-                        response = http.Delete(positonSettingUrl, data);
-                    }
-                });
-                result.Status = response.StatusCode;
+                    hrm = new HttpRequestMessage(System.Net.Http.HttpMethod.Post, positonSettingUrl);
+                }
+                else if (operate == "PUT")
+                {
+                    hrm = new HttpRequestMessage(System.Net.Http.HttpMethod.Put, positonSettingUrl);
+                }
+                else if (operate == "DELETE")
+                {
+                    hrm = new HttpRequestMessage(System.Net.Http.HttpMethod.Delete, positonSettingUrl);
+                }
+                hrm.Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+                var rps = await client.SendAsync(hrm);
+                var rsp = await rps.Content.ReadAsStringAsync();
+                result.Status = rps.StatusCode;
+                result.Error = JsonConvert.DeserializeObject<ErrorInfo>(rsp);
 
-                if ((operate=="POST")&&(response.StatusCode == System.Net.HttpStatusCode.Created))
-                {
-                    return result;
-                }
-                else if((operate=="PUT")&&(response.StatusCode==System.Net.HttpStatusCode.NoContent))
-                {
-                    return result;
-                }
-                else if((operate=="DELETE")&&(response.StatusCode==System.Net.HttpStatusCode.NoContent))
-                {
-                    return result;
-                }
-                else
-                {
-                    result.Error = response.StaticBody<ErrorInfo>();
-                }
                 return result;
             }
             catch (Exception e)
@@ -253,7 +243,7 @@ namespace Trader.Core
         {
             try
             {
-                var http = new HttpClient();
+                var http = new EasyHttp.Http.HttpClient();
                 http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
                 HttpResponse response = null;
                 PositionSettingResponse result = new PositionSettingResponse();

@@ -57,7 +57,7 @@ namespace Trader.Views
 
         private void btnSplit_Click(object sender, RoutedEventArgs e)
         {
-            if (viewModel.IsVisible == true)
+            if (viewModel.IsCreate == true)
             {
                 viewModel.Create();
             }

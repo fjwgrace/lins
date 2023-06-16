@@ -9,10 +9,8 @@ namespace Trader.Models
 {
     public class ErrorInfo
     {
-        [JsonName("error_code")]
-        public string ErrorCode { get; set; }
+        public int error_code { get; set; }
 
-        [JsonName("error_text")]
-        public string ErrorText { get; set; }
+        public string error_text { get; set; }
     }
 }

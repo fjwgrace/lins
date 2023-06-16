@@ -7,7 +7,7 @@
              xmlns:cvt="clr-namespace:Trader.Converts"
              xmlns:local="clr-namespace:Trader.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="550" d:DesignWidth="1000">
+             d:DesignHeight="550" d:DesignWidth="1000" FontFamily="Microsoft YaHei">
     <UserControl.Resources>
         <cvt:ProfitColorConvert x:Key="profitColorConvert"/>
     </UserControl.Resources>
@@ -22,9 +22,9 @@
         <StackPanel Orientation="Horizontal" Margin="8,8,8,8">
             <TextBlock Text="持仓查询" FontSize="16" VerticalAlignment="Center"></TextBlock>
             <TextBlock Text="资金账号" FontSize="16" Margin="30,0,0,0" VerticalAlignment="Center"/>
-            <ComboBox x:Name="cboAccount" FontSize="16" ItemsSource="{Binding Accounts}" md:HintAssist.Hint="资金账号" Margin="10,0,0,0" Width="110" SelectedItem="{Binding UserName}"/>
-            <TextBlock Text="交易员账号" FontSize="16" Margin="30,0,0,0" VerticalAlignment="Center"/>
-            <ComboBox x:Name="cboTrade" FontSize="16" ItemsSource="{Binding Traders}" md:HintAssist.Hint="交易员账号" Margin="10,0,0,0" Width="110" SelectedItem="{Binding TradeName}"/>
+            <ComboBox x:Name="cboAccount" FontSize="16" ItemsSource="{Binding Accounts}"  Margin="10,0,0,0" Width="120" SelectedItem="{Binding UserName}"/>
+            <TextBlock Text="策略账号" FontSize="16" Margin="30,0,0,0" VerticalAlignment="Center"/>
+            <ComboBox x:Name="cboTrade" FontSize="16" ItemsSource="{Binding Traders}"  Margin="10,0,0,0" Width="130" SelectedItem="{Binding TradeName}"/>
             <Button x:Name="btnRefresh" HorizontalAlignment="Center" Width="90" Margin="20,0,0,0" Content="刷新" Click="btnRefresh_Click"/>
 
         </StackPanel>
