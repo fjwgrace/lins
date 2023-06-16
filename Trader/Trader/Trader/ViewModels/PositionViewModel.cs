@@ -122,6 +122,12 @@ namespace Trader.ViewModels
                     if (result.Status == System.Net.HttpStatusCode.OK)
                     {
                         Positions = new ObservableCollection<Position>(result.Info);
+                        if(Positions?.Count>0)
+                        {
+                            double? totalRealize=Positions.Select(m=>m.realize_profit).Sum();
+                            double? floatProfit= Positions.Select(m => m.floating_profit).Sum();
+                            Positions.Add(new Position() { index = "汇总", realize_profit = totalRealize, floating_profit = floatProfit });
+                        }
                     }
                 }
             }

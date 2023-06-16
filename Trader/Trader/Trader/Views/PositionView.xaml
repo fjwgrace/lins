@@ -40,16 +40,17 @@
                 <DataGridTextColumn Header="#" Binding="{Binding index}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="证券代码" Binding="{Binding symbol}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="证券名称" Binding="{Binding security_name}" Foreground="{StaticResource StockNameDefaultBrush}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="总持仓" Binding="{Binding total }" IsReadOnly="True"/>
+                <DataGridTextColumn Header="总持仓" Binding="{Binding total}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="可用持仓" Binding="{Binding available }" IsReadOnly="True"/>
-                <DataGridTextColumn Header="买入均价" Binding="{Binding buy_average_price}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="卖出均价" Binding="{Binding sell_average_price}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="融资可用额度" Binding="{Binding available_credit_stock }" IsReadOnly="True"/>
+                <DataGridTextColumn Header="买入均价" Binding="{Binding buy_average_price, StringFormat={}{0:N3}}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="卖出均价" Binding="{Binding sell_average_price,StringFormat={}{0:N3}}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="买入成交数量" Binding="{Binding buy_filled_quantity}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="卖出成交数量" Binding="{Binding sell_filled_quantity}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="买入成交金额" Binding="{Binding buy_filled_turnover}" Foreground="{StaticResource MoneyForegroundLight}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="卖出成交金额" Binding="{Binding sell_filled_turnover}" Foreground="{StaticResource MoneyForegroundLight}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="买入成交费用" Binding="{Binding buy_fee}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="卖出成交费用" Binding="{Binding sell_fee}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="买入成交费用" Binding="{Binding buy_fee,StringFormat={}{0:N3}}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="卖出成交费用" Binding="{Binding sell_fee,StringFormat={}{0:N3}}" IsReadOnly="True"/>
                 <DataGridTemplateColumn Header="实现盈亏">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

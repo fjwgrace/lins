@@ -90,7 +90,7 @@ namespace Trader.ViewModels
             try
             {
                 var result = await DataCenter.Login(LoginRequestInfo);
-                if (result.Status != System.Net.HttpStatusCode.OK)
+                if (result?.Status != System.Net.HttpStatusCode.OK)
                 {
                     IsVisible = true;
                     Message = result?.Error.error_text;

@@ -50,17 +50,27 @@ namespace Trader.Core
                 LoginResponse result = new LoginResponse();
                 await Task.Run(() =>
                 {
-                    response =http.Post(loginUrl, info, HttpContentTypes.ApplicationJson);
+                    try
+                    {
+                        response = http.Post(loginUrl, info, HttpContentTypes.ApplicationJson);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Logger.Error(string.Format("登录出错,{0}", ex.Message));
+                    }
                 });
-                result.Status = response.StatusCode;
-                if(response.StatusCode==System.Net.HttpStatusCode.OK)
+                if (response != null)
                 {
-                    result.Info= response.StaticBody<LoginResponseInfo>( );
-                    GlobalLogin = result.Info;
-                }
-                else
-                {
-                    result.Error=response.StaticBody<ErrorInfo>( );
+                    result.Status = response.StatusCode;
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        result.Info = response.StaticBody<LoginResponseInfo>();
+                        GlobalLogin = result.Info;
+                    }
+                    else
+                    {
+                        result.Error = response.StaticBody<ErrorInfo>();
+                    }
                 }
                 return result;
             }
@@ -89,21 +99,31 @@ namespace Trader.Core
                 PositionResponse result = new PositionResponse();
                 await Task.Run(() =>
                 {
-                    response = http.Get(url);
-                });
-                result.Status = response.StatusCode;
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    result.Info = response.StaticBody<List<Position>>();
-                    for(int i=0;i<result.Info.Count;i++)
+                    try
                     {
-                        result.Info[i].index = i + 1;
+                        response = http.Get(url);
                     }
-                       
-                }
-                else
+                    catch (Exception ex)
+                    {
+                        Log.Logger.Error(string.Format(" http.Get 获取持仓出错,{0}", ex.Message));
+                    }
+              
+                });
+                if (response != null)
                 {
-                    result.Error = response.StaticBody<ErrorInfo>();
+                    result.Status = response.StatusCode;
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        result.Info = response.StaticBody<List<Position>>();
+                        for (int i = 0; i < result.Info.Count; i++)
+                        {
+                            result.Info[i].index = (i + 1).ToString();
+                        }
+                    }
+                    else
+                    {
+                        result.Error = response.StaticBody<ErrorInfo>();
+                    }
                 }
                 return result;
             }
@@ -131,20 +151,30 @@ namespace Trader.Core
                 OrderResponse result = new OrderResponse();
                 await Task.Run(() =>
                 {
-                    response = http.Get(url);
-                });
-                result.Status = response.StatusCode;
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    result.Info = response.StaticBody<List<Order>>();
-                    for (int i = 0; i < result.Info.Count; i++)
+                    try
                     {
-                        result.Info[i].index = i + 1;
+                        response = http.Get(url);
                     }
-                }
-                else
+                    catch (Exception ex)
+                    {
+                        Log.Logger.Error(string.Format("http.Get 获取委托出错,{0}", ex.Message));
+                    }
+                });
+                if (response != null)
                 {
-                    result.Error = response.StaticBody<ErrorInfo>();
+                    result.Status = response.StatusCode;
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        result.Info = response.StaticBody<List<Order>>();
+                        for (int i = 0; i < result.Info.Count; i++)
+                        {
+                            result.Info[i].index = i + 1;
+                        }
+                    }
+                    else
+                    {
+                        result.Error = response.StaticBody<ErrorInfo>();
+                    }
                 }
                 return result;
             }
@@ -172,20 +202,30 @@ namespace Trader.Core
                 DealResponse result = new DealResponse();
                 await Task.Run(() =>
                 {
-                    response = http.Get(url);
-                });
-                result.Status = response.StatusCode;
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    result.Info = response.StaticBody<List<Deal>>();
-                    for (int i = 0; i < result.Info.Count; i++)
+                    try
                     {
-                        result.Info[i].index = i + 1;
+                        response = http.Get(url);
                     }
-                }
-                else
+                    catch (Exception ex)
+                    {
+                        Log.Logger.Error(string.Format("http.Get 获取成交出错,{0}", ex.Message));
+                    }
+                });
+                if (response != null)
                 {
-                    result.Error = response.StaticBody<ErrorInfo>();
+                    result.Status = response.StatusCode;
+                    if (response?.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        result.Info = response.StaticBody<List<Deal>>();
+                        for (int i = 0; i < result.Info.Count; i++)
+                        {
+                            result.Info[i].index = i + 1;
+                        }
+                    }
+                    else
+                    {
+                        result.Error = response.StaticBody<ErrorInfo>();
+                    }
                 }
                 return result;
             }
@@ -232,6 +272,11 @@ namespace Trader.Core
 
                 return result;
             }
+            catch(AggregateException ex)
+            {
+                Log.Logger.Error(string.Format("操作符{0},分券出错,{1}", operate, ex.Message));
+                return null;
+            }
             catch (Exception e)
             {
                 Log.Logger.Error(string.Format("操作符{0},分券出错,{1}", operate,e.Message));
@@ -249,20 +294,30 @@ namespace Trader.Core
                 PositionSettingResponse result = new PositionSettingResponse();
                 await Task.Run(() =>
                 {
-                    response = http.Get(positonSettingUrl);
-                });
-                result.Status = response.StatusCode;
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    result.Info = response.StaticBody<List<PositionSetting>>();
-                    for (int i = 0; i < result.Info.Count; i++)
+                    try
                     {
-                        result.Info[i].index = i + 1;
+                        response = http.Get(positonSettingUrl);
                     }
-                }
-                else
+                    catch(Exception ex)
+                    {
+                        Log.Logger.Error(string.Format("获取分券信息出错,{0}", ex.Message));
+                    }
+                });
+                if (response != null)
                 {
-                    result.Error = response.StaticBody<ErrorInfo>();
+                    result.Status = response.StatusCode;
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        result.Info = response.StaticBody<List<PositionSetting>>();
+                        for (int i = 0; i < result.Info.Count; i++)
+                        {
+                            result.Info[i].index = i + 1;
+                        }
+                    }
+                    else
+                    {
+                        result.Error = response.StaticBody<ErrorInfo>();
+                    }
                 }
                 return result;
             }
