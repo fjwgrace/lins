@@ -64,17 +64,17 @@ namespace Trader.ViewModels
                 if (result.Status == System.Net.HttpStatusCode.NoContent)
                 {
                     LoadData();
-                    MessageBox.Show("操作正确");
+                    MessageBox.Show("操作正确", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
                     if (string.IsNullOrEmpty(result.Error?.error_text))
                     {
-                        MessageBox.Show("操作错误");
+                        MessageBox.Show("操作错误","提示", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     else
                     {
-                        MessageBox.Show(string.Format("操作错误，错误原因:{0}", result.Error.error_text));
+                        MessageBox.Show(string.Format("操作错误，错误原因:{0}", result.Error.error_text),"提示", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
