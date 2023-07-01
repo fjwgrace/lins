@@ -344,7 +344,7 @@ namespace Trader.Core
                 {
                     try
                     {
-                        response = http.Post(loginUrl, null, HttpContentTypes.ApplicationJson);
+                        response = http.Post(syncUrl, null, HttpContentTypes.ApplicationJson);
                     }
                     catch (Exception ex)
                     {
