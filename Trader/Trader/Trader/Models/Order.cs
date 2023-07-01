@@ -41,5 +41,6 @@ namespace Trader.Models
         public string account_type { get; set; }
         public string security_name { get; set; }
         public Dictionary<string,string> extra_info { get; set; }
+        public double deal_price { get; set; }
     }
 }

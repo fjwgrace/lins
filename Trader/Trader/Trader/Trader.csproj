@@ -138,6 +138,7 @@
     <Compile Include="Models\PositionResponse.cs" />
     <Compile Include="Models\PositionSetting.cs" />
     <Compile Include="Models\PositionSettingResponse.cs" />
+    <Compile Include="Models\SyncResponse.cs" />
     <Compile Include="NumericValidationRule.cs" />
     <Compile Include="ViewModels\DealViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Views\DealView.xaml.cs">
       <DependentUpon>DealView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FileName.cs" />
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>

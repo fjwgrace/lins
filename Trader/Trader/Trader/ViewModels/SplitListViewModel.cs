@@ -64,15 +64,43 @@ namespace Trader.ViewModels
                 if (result.Status == System.Net.HttpStatusCode.NoContent)
                 {
                     LoadData();
+                    MessageBox.Show("操作正确");
                 }
                 else
                 {
-                    MessageBox.Show(string.Format("删除分券数据出错:{0}", result.Error.error_text));
+                    if (string.IsNullOrEmpty(result.Error?.error_text))
+                    {
+                        MessageBox.Show("操作错误");
+                    }
+                    else
+                    {
+                        MessageBox.Show(string.Format("操作错误，错误原因:{0}", result.Error.error_text));
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Log.Logger.Error("删除分券数据出错", ex);
+            }
+        }
+
+        public async void SetAdapter()
+        {
+            try
+            {
+                var result = await DataCenter.SetAdapter( );
+                if (result.Status != System.Net.HttpStatusCode.Accepted)
+                {
+                    MessageBox.Show(result.Error.error_text,"提示", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show("操作成功", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error("分券同步出错", ex);
             }
         }
     }

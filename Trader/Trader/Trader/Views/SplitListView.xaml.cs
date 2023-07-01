@@ -64,5 +64,10 @@ namespace Trader.Views
         {
 
         }
+
+        private void btnsync_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.SetAdapter();
+        }
     }
 }

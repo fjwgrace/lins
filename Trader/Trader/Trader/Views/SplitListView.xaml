@@ -16,7 +16,14 @@
         <KeyBinding Key="F5" Command="{Binding RefreshCommand}" />
     </UserControl.InputBindings>
     <Grid>
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding PositionSettings}" IsReadOnly="True" SelectedItem="{Binding CurrentSetting}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="8,8,8,8">
+            <Button x:Name="btnsync" HorizontalAlignment="Center" Width="90" Margin="10,0,0,0" Content="同步" Click="btnsync_Click"/>
+        </StackPanel>
+        <DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding PositionSettings}" IsReadOnly="True" SelectedItem="{Binding CurrentSetting}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="刷新" x:Name="MIRefresh" Click="MIRefresh_Click" />
@@ -27,7 +34,7 @@
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="#" Binding="{Binding index}"/>
-                <DataGridTextColumn Header="交易员账号" Binding="{Binding username}"/>
+                <DataGridTextColumn Header="策略ID" Binding="{Binding username}"/>
                 <DataGridTextColumn Header="证券代码" Binding="{Binding symbol}"/>
                 <DataGridTextColumn Header="证券名称" Binding="{Binding security_name}" Foreground="{StaticResource StockNameDefaultBrush}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="授权数量" Binding="{Binding authorized_qty}"/>

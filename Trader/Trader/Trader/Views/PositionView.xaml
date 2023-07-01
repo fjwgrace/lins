@@ -23,7 +23,7 @@
             <TextBlock Text="持仓查询" FontSize="16" VerticalAlignment="Center"></TextBlock>
             <TextBlock Text="资金账号" FontSize="16" Margin="30,0,0,0" VerticalAlignment="Center"/>
             <ComboBox x:Name="cboAccount" FontSize="16" ItemsSource="{Binding Accounts}"  Margin="10,0,0,0" Width="120" SelectedItem="{Binding UserName}"/>
-            <TextBlock Text="策略账号" FontSize="16" Margin="30,0,0,0" VerticalAlignment="Center"/>
+            <TextBlock Text="策略ID" FontSize="16" Margin="30,0,0,0" VerticalAlignment="Center"/>
             <ComboBox x:Name="cboTrade" FontSize="16" ItemsSource="{Binding Traders}"  Margin="10,0,0,0" Width="130" SelectedItem="{Binding TradeName}"/>
             <Button x:Name="btnRefresh" HorizontalAlignment="Center" Width="90" Margin="20,0,0,0" Content="刷新" Click="btnRefresh_Click"/>
 
@@ -42,7 +42,7 @@
                 <DataGridTextColumn Header="证券名称" Binding="{Binding security_name}" Foreground="{StaticResource StockNameDefaultBrush}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="总持仓" Binding="{Binding total}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="可用持仓" Binding="{Binding available }" IsReadOnly="True"/>
-                <DataGridTextColumn Header="融资可用额度" Binding="{Binding available_credit_stock }" IsReadOnly="True"/>
+                <DataGridTextColumn Header="融券可用额度" Binding="{Binding available_credit_stock }" IsReadOnly="True"/>
                 <DataGridTextColumn Header="买入均价" Binding="{Binding buy_average_price, StringFormat={}{0:N3}}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="卖出均价" Binding="{Binding sell_average_price,StringFormat={}{0:N3}}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="买入成交数量" Binding="{Binding buy_filled_quantity}" IsReadOnly="True"/>
@@ -72,8 +72,8 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="最新价" Binding="{Binding last_price}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="成本价" Binding="{Binding cost_price }" IsReadOnly="True"/>
-                <DataGridTextColumn Header="交易员账号" Binding="{Binding username }" IsReadOnly="True"/>
+                <DataGridTextColumn Header="成本价" Binding="{Binding cost_price ,StringFormat={}{0:N3}}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="策略ID" Binding="{Binding username }" IsReadOnly="True"/>
                 <DataGridTextColumn Header="最迟平仓日" Binding="{Binding last_closing_date}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>

@@ -25,6 +25,7 @@ namespace Trader.Core
         static string dealUrl { get; set; } = string.Empty;
         static string baseUrl { get; set; } = string.Empty;
         static string positonSettingUrl { get; set; } = string.Empty;
+        static string syncUrl { get; set; } = string.Empty;
 
         public static LoginResponseInfo GlobalLogin { get; set; }
 
@@ -169,6 +170,7 @@ namespace Trader.Core
                         for (int i = 0; i < result.Info.Count; i++)
                         {
                             result.Info[i].index = i + 1;
+                            result.Info[i].deal_price = result.Info[i].average_price * result.Info[i].filled_quantity;
                         }
                     }
                     else
@@ -220,6 +222,7 @@ namespace Trader.Core
                         for (int i = 0; i < result.Info.Count; i++)
                         {
                             result.Info[i].index = i + 1;
+                            result.Info[i].deal_price = result.Info[i].price * result.Info[i].quantity;
                         }
                     }
                     else
@@ -324,6 +327,41 @@ namespace Trader.Core
             catch (Exception e)
             {
                 Log.Logger.Error(string.Format("获取分券信息出错,{0}", e.Message));
+                return null;
+            }
+        }
+
+        public static async Task<SyncResponse> SetAdapter()
+        {
+            try
+            {
+                var http = new EasyHttp.Http.HttpClient();
+                http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
+                HttpResponse response = null;
+                SyncResponse result = new SyncResponse();
+                syncUrl = string.Format("{0}/position_settings/{1}/set_adapter", baseUrl, GlobalLogin.UserName);
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        response = http.Post(loginUrl, null, HttpContentTypes.ApplicationJson);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Logger.Error(string.Format("同步出错,{0}", ex.Message));
+                    }
+                });
+
+                if (response != null)
+                {
+                    result.Status = response.StatusCode;
+                    result.Error = response.StaticBody<ErrorInfo>();
+                }
+                return result;
+            }
+            catch (Exception e)
+            {
+                Log.Logger.Error(string.Format("同步出错,{0}", e.Message));
                 return null;
             }
         }

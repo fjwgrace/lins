@@ -25,7 +25,7 @@
             <TextBlock Text="成交查询" FontSize="16" VerticalAlignment="Center"></TextBlock>
             <TextBlock Text="资金账号" FontSize="16" Margin="30,0,0,0" VerticalAlignment="Center"/>
             <ComboBox x:Name="cboAccount" FontSize="16" ItemsSource="{Binding Accounts}"  Margin="10,0,0,0" Width="120" SelectedItem="{Binding UserName}"/>
-            <TextBlock Text="策略账号" FontSize="16" Margin="30,0,0,0" VerticalAlignment="Center"/>
+            <TextBlock Text="策略ID" FontSize="16" Margin="30,0,0,0" VerticalAlignment="Center"/>
             <ComboBox x:Name="cboTrade" FontSize="16" ItemsSource="{Binding Traders}"  Margin="10,0,0,0" Width="130" SelectedItem="{Binding TradeName}"/>
             <Button x:Name="btnRefresh" HorizontalAlignment="Center" Width="90" Margin="20,0,0,0" Content="刷新" Click="btnRefresh_Click"/>
         </StackPanel>
@@ -52,6 +52,7 @@
 
                 <DataGridTextColumn Header="成交价" Binding="{Binding price  }" />
                 <DataGridTextColumn Header="成交数量" Binding="{Binding quantity }" />
+                <DataGridTextColumn Header="成交金额" Binding="{Binding deal_price,StringFormat={}{0:N3} }" />
                 <DataGridTextColumn Header="成交时间" Binding="{Binding match_time}" />
                 <DataGridTextColumn Header="成交编号" Binding="{Binding match_id}" />
                 <DataGridTextColumn Header="系统委托编号" Binding="{Binding tbox_order_id}" />

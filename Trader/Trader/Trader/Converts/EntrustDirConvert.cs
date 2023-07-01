@@ -24,9 +24,9 @@ namespace Trader.Converts
                     case "S":
                         return "卖出";
                     case "SS":
-                        return "融资卖出";
+                        return "融券卖出";
                     case "BC":
-                        return "买券换券";
+                        return "买券还券";
                     case "FB":
                         return "融资买入";
                     case "SR":

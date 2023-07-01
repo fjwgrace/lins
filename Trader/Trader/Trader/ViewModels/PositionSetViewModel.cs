@@ -25,7 +25,7 @@ namespace Trader.ViewModels
             set { SetProperty(ref _traders, value); }
         }
         public ObservableCollection<string> BuyModes { get; set; } = new ObservableCollection<string>(new List<string>() { "买入", "融资买入", "买券还券" });
-        public ObservableCollection<string> SellModes { get; set; } = new ObservableCollection<string>(new List<string>() { "卖出", "融资卖出", "卖券还款" });
+        public ObservableCollection<string> SellModes { get; set; } = new ObservableCollection<string>(new List<string>() { "卖出", "融券卖出", "卖券还款" });
         private string _currentTrader;
         public string CurrentTrader
         {
@@ -129,7 +129,7 @@ namespace Trader.ViewModels
                     sm = "卖出";
                     break;
                 case "SS":
-                    sm = "融资卖出";
+                    sm = "融券卖出";
                     break;
                 case "SR":
                     sm = "卖券还款";
@@ -168,7 +168,7 @@ namespace Trader.ViewModels
                 case "卖出":
                     sm = "S";
                     break;
-                case "融资卖出":
+                case "融券卖出":
                     sm = "SS";
                     break;
                 case "卖券还款":
@@ -224,7 +224,7 @@ namespace Trader.ViewModels
                     case "卖出":
                         sm = "S";
                         break;
-                    case "融资卖出":
+                    case "融券卖出":
                         sm = "SS";
                         break;
                     case "卖券还款":

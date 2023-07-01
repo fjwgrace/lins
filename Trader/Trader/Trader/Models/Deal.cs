@@ -30,5 +30,6 @@ namespace Trader.Models
         public string account_type { get; set; }       // 账户类型
         public string security_name { get; set; }          // 证券名称
         public Dictionary<string, string> extra_info { get; set; }	// 扩展信息，暂时用不到
+        public double deal_price { get; set; }
     }
 }
