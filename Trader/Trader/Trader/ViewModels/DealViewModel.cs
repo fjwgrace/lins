@@ -43,11 +43,18 @@ namespace Trader.ViewModels
         public DealViewModel()
         {
             if (DataCenter.GlobalLogin == null) { return; }
-            var usernames = DataCenter.GlobalLogin.UserNames.Split(',');
+            var usernames = DataCenter.GlobalLogin.UserNames?.Split(',');
             Accounts = new ObservableCollection<string>();
             Accounts.Add(DataCenter.GlobalLogin.UserName);
             UserName = DataCenter.GlobalLogin.UserName;
-            Traders = new ObservableCollection<string>(usernames);
+            if (usernames != null)
+            {
+                Traders = new ObservableCollection<string>(usernames);
+            }
+            else
+            {
+                Traders = new ObservableCollection<string>();
+            }
             Traders.Insert(0, UserName);
             TradeName = Traders.First();
             LoadData();
