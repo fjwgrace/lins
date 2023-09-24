@@ -55,6 +55,14 @@ namespace Trader.ViewModels
             {
                 Log.Logger.Error("读取历史登录信息出错", ex);
             }
+            try
+            {
+                DataCenter.Init();
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error("配置信息初始化失败", ex);
+            }
         }
         public bool _isSuccess;
         public bool IsSuccess
@@ -81,12 +89,21 @@ namespace Trader.ViewModels
             var ts2 = Task.Run(() => SystemInfoProvider.GetCPUID());
             var ts3 = Task.Run(() => SystemInfoProvider.GetHDSN());
             var ts4 = Task.Run(() => SystemInfoProvider.GetMac());
-            Task.WaitAll(ts1, ts2, ts3, ts4);
+            var ts5 = Task.Run(() => SystemInfoProvider.GetPCName());
+            var ts6 = Task.Run(() => SystemInfoProvider.GetPCSerielNo());
+            var ts7 = Task.Run(() => SystemInfoProvider.GetSystemVol());
+            Task.WaitAll(ts1, ts2, ts3, ts4,ts5,ts6,ts7);
 
             LoginRequestInfo.IPAddress = ts1.Result.FirstOrDefault();
             LoginRequestInfo.CPUID = ts2.Result;
             LoginRequestInfo.HdSN = ts3.Result;
             LoginRequestInfo.Mac = ts4.Result;
+
+            //新增
+            LoginRequestInfo.PCN = ts5.Result;
+            LoginRequestInfo.SNO=ts6.Result;
+            LoginRequestInfo.PI=SystemInfoProvider.GetSystemPI();
+            LoginRequestInfo.VOL = ts7.Result;
             try
             {
                 var result = await DataCenter.Login(LoginRequestInfo);

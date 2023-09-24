@@ -58,5 +58,14 @@ namespace Trader.Views
             btnLogin.Command.CanExecute(null);
 
         }
+
+        private void Config_Click(object sender, RoutedEventArgs e)
+        {
+            ConfigView configView = new ConfigView();
+            if (configView.ShowDialog() == true)
+            {
+                DataCenter.Init();
+            }
+        }
     }
 }

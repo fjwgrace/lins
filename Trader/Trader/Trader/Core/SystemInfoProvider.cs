@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net.NetworkInformation;
@@ -87,6 +88,61 @@ namespace Trader.Core
                     break;
                 }
             return result;
+        }
+
+        public static string GetPCName()
+        {
+            return  Environment.MachineName;
+        }
+        public static string GetPCSerielNo()
+        {
+            string serialNumber = string.Empty;
+            try
+            {
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_BIOS");
+                ManagementObjectCollection managementObjects = searcher.Get();
+
+                foreach (ManagementObject obj in managementObjects)
+                {
+                    serialNumber = obj["SerialNumber"].ToString();
+                    break; // 获取到第一个序列号就退出循环
+                }
+            }
+            catch (Exception ex)
+            {
+                // 处理异常
+               Log.Logger.Error("获取计算机序列号时发生错误：" + ex.Message);
+            }
+            return serialNumber;
+        }
+
+        public static string GetSystemVol()
+        {
+            string systemVol = string.Empty;
+            try
+            {
+                DriveInfo systemDrive = DriveInfo.GetDrives()[0]; // 获取系统盘
+                string volumeLabel = systemDrive.VolumeLabel;
+
+                if (!string.IsNullOrWhiteSpace(volumeLabel))
+                {
+                    systemVol = volumeLabel;
+                }
+                else
+                {
+                    Log.Logger.Information("系统盘未设置卷标号。");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error("获取系统盘卷标号时出错: " + ex.Message);
+            }
+            return systemVol;
+        }
+
+        public static string GetSystemPI()
+        {
+            return "NA";
         }
     }
 }

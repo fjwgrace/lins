@@ -21,5 +21,15 @@ namespace Trader.Models
         public string HdSN;
         [JsonName("cpu_id")]
         public string CPUID;
+
+        //新增
+        [JsonName("pcn")]
+        public string PCN;
+        [JsonName("sno")]
+        public string SNO;
+        [JsonName("pi")]
+        public string PI;
+        [JsonName("vol")]
+        public string VOL;
     }
 }

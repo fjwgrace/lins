@@ -127,10 +127,12 @@
     <Compile Include="Converts\EntrustDirConvert.cs" />
     <Compile Include="Converts\ProfitColorConvert.cs" />
     <Compile Include="Core\Log.cs" />
+    <Compile Include="Core\ValidateHelper.cs" />
     <Compile Include="Message\PositionMsg.cs" />
     <Compile Include="Message\PositionSettingMsg.cs" />
     <Compile Include="Models\Deal.cs" />
     <Compile Include="Models\DealResponse.cs" />
+    <Compile Include="Models\GroupInfo.cs" />
     <Compile Include="Models\LoginResponse.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderResponse.cs" />
@@ -140,12 +142,16 @@
     <Compile Include="Models\PositionSettingResponse.cs" />
     <Compile Include="Models\SyncResponse.cs" />
     <Compile Include="NumericValidationRule.cs" />
+    <Compile Include="ViewModels\ConfigViewModel.cs" />
     <Compile Include="ViewModels\DealViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\PositionSetViewModel.cs" />
     <Compile Include="ViewModels\PositionViewModel.cs" />
     <Compile Include="ViewModels\OrderVewModel.cs" />
     <Compile Include="ViewModels\SplitListViewModel.cs" />
+    <Compile Include="Views\ConfigView.xaml.cs">
+      <DependentUpon>ConfigView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DealView.xaml.cs">
       <DependentUpon>DealView.xaml</DependentUpon>
     </Compile>
@@ -174,6 +180,10 @@
       <DependentUpon>SplitStockWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Style\ColorStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

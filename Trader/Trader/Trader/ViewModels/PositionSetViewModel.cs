@@ -25,7 +25,7 @@ namespace Trader.ViewModels
             set { SetProperty(ref _traders, value); }
         }
         public ObservableCollection<string> BuyModes { get; set; } = new ObservableCollection<string>(new List<string>() { "买入", "融资买入", "买券还券" });
-        public ObservableCollection<string> SellModes { get; set; } = new ObservableCollection<string>(new List<string>() { "卖出", "融券卖出", "卖券还款" });
+        public ObservableCollection<string> SellModes { get; set; } = new ObservableCollection<string>(new List<string>() { "卖出", "融券卖出" });
         private string _currentTrader;
         public string CurrentTrader
         {

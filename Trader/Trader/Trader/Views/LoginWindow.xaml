@@ -48,10 +48,14 @@
 
     <!--<TextBlock Text="忘记密码？" HorizontalAlignment="Right " VerticalAlignment="Bottom" Margin="60 40"  FontSize="13" Foreground="Gray"  Cursor="Hand"/>-->
 
-
+        <StackPanel HorizontalAlignment="Right"  VerticalAlignment="Top" Orientation="Horizontal">
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="Config_Click">
+                <materialDesign:PackIcon Kind="Home"/>
+            </Button>
         <Button HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Click="Close_Click" >
       <materialDesign:PackIcon Kind="Close"/>
     </Button>
+        </StackPanel>
 
     <Border CornerRadius="30" BorderBrush="#FF2281D1" BorderThickness="2" Width="100" Height="100" VerticalAlignment="Top" Margin="30">
       <Border.Background>

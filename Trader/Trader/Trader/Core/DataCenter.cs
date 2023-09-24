@@ -15,6 +15,8 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
+using static System.Net.WebRequestMethods;
 
 namespace Trader.Core
 {
@@ -26,20 +28,73 @@ namespace Trader.Core
         static string baseUrl { get; set; } = string.Empty;
         static string positonSettingUrl { get; set; } = string.Empty;
         static string syncUrl { get; set; } = string.Empty;
+        static string groupUrl { get; set; } = string.Empty;
+        static string groupID { get; set; } = string.Empty;
 
         public static LoginResponseInfo GlobalLogin { get; set; }
 
-        static DataCenter()
+        static bool IsSSL;
+        public static void Init()
         {
             try
             {
-                baseUrl = ConfigurationManager.AppSettings["server"];
+                bool ssl = bool.TryParse(ConfigurationManager.AppSettings["isSslEnable"], out IsSSL);
+                if (!ssl)
+                {
+                    Log.Logger.Error("Ssl Enable 配置有误");
+                }
+                string ip = ConfigurationManager.AppSettings["ip"];
+                string port = ConfigurationManager.AppSettings["port"];
+                if (IsSSL)
+                {
+                    baseUrl = string.Format("https://{0}:{1}", ip, port);
+                }
+                else
+                {
+                    baseUrl = string.Format("http://{0}:{1}", ip, port);
+                }
                 loginUrl = string.Format("{0}/sign_in", baseUrl);
-                positonSettingUrl= string.Format("{0}/position_settings", baseUrl);
+                positonSettingUrl = string.Format("{0}/position_settings", baseUrl);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Logger.Error(string.Format("读取地址信息出错,{0}", e.Message));
+            }
+        }
+        //static DataCenter()
+        //{
+        //    try
+        //    {
+        //        baseUrl = ConfigurationManager.AppSettings["server"];
+        //        loginUrl = string.Format("{0}/sign_in", baseUrl);
+        //        positonSettingUrl= string.Format("{0}/position_settings", baseUrl);
+        //    }
+        //}
+        private static  void PackageCrt(EasyHttp.Http.HttpClient client)
+        {
+            X509Certificate2 cert = new X509Certificate2(@".\server.crt");
+            client.Request.ClientCertificates.Add(cert);
+        }
+        private static System.Net.Http.HttpClient GenerateClient( )
+        {
+            if(IsSSL)
+            {
+                var handler = new HttpClientHandler();
+                handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+                handler.ServerCertificateCustomValidationCallback = (s, ce, ca, p) =>
+                {
+                    var certificate = new X509Certificate2(@".\server.crt");
+                    if (ce != null)
+                    {
+                        return certificate.Thumbprint.Equals(ce.Thumbprint, StringComparison.OrdinalIgnoreCase);
+                    }
+                    return false;
+                };
+                return new System.Net.Http.HttpClient(handler);
+            }
+            else
+            {
+                return new System.Net.Http.HttpClient();
             }
         }
         public static async Task<LoginResponse> Login(LoginRequestInfo info)
@@ -47,13 +102,44 @@ namespace Trader.Core
             try
             {
                 var http=new EasyHttp.Http.HttpClient();
+                if (IsSSL)
+                {
+                    PackageCrt(http);
+                }
                 HttpResponse response = null;
                 LoginResponse result = new LoginResponse();
                 await Task.Run(() =>
                 {
                     try
                     {
-                        response = http.Post(loginUrl, info, HttpContentTypes.ApplicationJson);
+                        http.Request.AddExtraHeader("group", "1");
+                        response = http.Get(string.Format("{0}/group/{1}", baseUrl, info.UserName));
+                       
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Logger.Error(string.Format("登录出错,获取组信息出错,{0}", ex.Message));
+                    }
+                });
+                if (response != null)
+                {
+                    result.Status = response.StatusCode;
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        var groupInfo = response.StaticBody<GroupInfo>();
+                        groupID = groupInfo.Group;
+                    }
+                    else
+                    {
+                        result.Error = response.StaticBody<ErrorInfo>();
+                        return result;
+                    }
+                }
+                await Task.Run(() => { 
+                    try
+                    {
+                      http.Request.AddExtraHeader("group", groupID);
+                      response = http.Post(loginUrl, info, HttpContentTypes.ApplicationJson);
                     }
                     catch (Exception ex)
                     {
@@ -94,7 +180,11 @@ namespace Trader.Core
                 CheckToken();
                 string url = string.Format("{0}/stock/{1}/{2}/positions", baseUrl, fundAccountId, username);
                 var http = new EasyHttp.Http.HttpClient();
-                
+                if(IsSSL)
+                {
+                    PackageCrt(http);
+                }
+                http.Request.AddExtraHeader("group", groupID);
                 http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
                 HttpResponse response = null;
                 PositionResponse result = new PositionResponse();
@@ -147,6 +237,11 @@ namespace Trader.Core
                 CheckToken();
                 string url = string.Format("{0}/stock/{1}/{2}/orders", baseUrl, fundAccountId, username);
                 var http = new EasyHttp.Http.HttpClient();
+                if (IsSSL)
+                {
+                    PackageCrt(http);
+                }
+                http.Request.AddExtraHeader("group", groupID);
                 http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
                 HttpResponse response = null;
                 OrderResponse result = new OrderResponse();
@@ -199,6 +294,11 @@ namespace Trader.Core
                 CheckToken();
                 string url = string.Format("{0}/stock/{1}/{2}/matches", baseUrl, fundAccountId, username);
                 var http = new EasyHttp.Http.HttpClient();
+                if (IsSSL)
+                {
+                    PackageCrt(http);
+                }
+                http.Request.AddExtraHeader("group", groupID);
                 http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
                 HttpResponse response = null;
                 DealResponse result = new DealResponse();
@@ -253,7 +353,8 @@ namespace Trader.Core
             {
                 PositionSettingResponse result = new PositionSettingResponse();
                 HttpRequestMessage hrm = null;
-                var client = new System.Net.Http.HttpClient();
+                var client = GenerateClient();
+                client.DefaultRequestHeaders.Add("group", groupID);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GlobalLogin.Token);
                 if (operate == "POST")
                 {
@@ -292,6 +393,11 @@ namespace Trader.Core
             try
             {
                 var http = new EasyHttp.Http.HttpClient();
+                if (IsSSL)
+                {
+                    PackageCrt(http);
+                }
+                http.Request.AddExtraHeader("group", groupID);
                 http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
                 HttpResponse response = null;
                 PositionSettingResponse result = new PositionSettingResponse();
@@ -336,6 +442,11 @@ namespace Trader.Core
             try
             {
                 var http = new EasyHttp.Http.HttpClient();
+                if (IsSSL)
+                {
+                    PackageCrt(http);
+                }
+                http.Request.AddExtraHeader("group", groupID);
                 http.Request.AddExtraHeader("authorization", string.Format("Bearer {0}", GlobalLogin.Token));
                 HttpResponse response = null;
                 SyncResponse result = new SyncResponse();
