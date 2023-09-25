@@ -17,6 +17,9 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using static System.Net.WebRequestMethods;
+using EasyHttp.Http.Abstractions;
+using EasyHttp.Http.Injection;
+using Flurl.Http.Testing;
 
 namespace Trader.Core
 {
@@ -138,8 +141,13 @@ namespace Trader.Core
                 await Task.Run(() => { 
                     try
                     {
-                      http.Request.AddExtraHeader("group", groupID);
-                      response = http.Post(loginUrl, info, HttpContentTypes.ApplicationJson);
+                        var httptemp = new EasyHttp.Http.HttpClient();
+                            if (IsSSL)
+                             {
+                                PackageCrt(httptemp);
+                            }
+                        httptemp.Request.AddExtraHeader("group", groupID);
+                        response = httptemp.Post(loginUrl, info, HttpContentTypes.ApplicationJson);
                     }
                     catch (Exception ex)
                     {

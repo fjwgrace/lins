@@ -5,12 +5,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Trader.Views"
+        xmlns:cvt="clr-namespace:Trader.Converts"
         mc:Ignorable="d"
         Title="用户配置" Height="500" Width="350"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         FontFamily="Microsoft YaHei">
+    <Window.Resources>
+        <cvt:SSLConvert x:Key="sslConvert"/>
+    </Window.Resources>
     <Grid>
         <Rectangle Height=" 220" VerticalAlignment="Top" >
             <Rectangle.Fill>
@@ -22,7 +26,7 @@
                 <StackPanel Orientation="Horizontal" >
                     <Label Margin="-5,0,0,0" FontFamily="Champagne &amp; Limousines" FontSize="16" >是否启用SSL</Label>
                     <CheckBox x:Name="isEnable" IsChecked="{Binding IsSslEnable}" FontFamily="Champagne &amp; Limousines" FontSize="16" >启用</CheckBox>
-                    <CheckBox x:Name="isDiable" IsChecked="{Binding IsSslDisable}" FontFamily="Champagne &amp; Limousines" FontSize="16" >不启用</CheckBox>
+                    <CheckBox x:Name="isDiable" IsChecked="{Binding IsSslEnable,Converter={StaticResource sslConvert}}" FontFamily="Champagne &amp; Limousines" FontSize="16" >不启用</CheckBox>
                 </StackPanel>
                 <TextBox x:Name="IPAddress" Margin="0,5" materialDesign:HintAssist.Hint="IP地址" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="16" Text="{Binding IP}"/>
                 <TextBox x:Name="Port" Margin="0,5" materialDesign:HintAssist.Hint="端口号" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="16" Text="{Binding Port}"/>
