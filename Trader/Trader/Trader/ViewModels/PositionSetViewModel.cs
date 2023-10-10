@@ -147,7 +147,15 @@ namespace Trader.ViewModels
             ps.security_name = StockName;
             ps.username = CurrentTrader;
             ps.id = DataCenter.GlobalLogin.UserName;
-            ps.last_closing_date = CloseDate;
+            DateTime dt;
+            if (DateTime.TryParse(CloseDate, out dt))
+            {
+                ps.last_closing_date = dt.ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                ps.last_closing_date = "";
+            }
             ps.authorized_qty = Qty;
             string bm = "B";
             switch(BuyMode)
@@ -203,7 +211,15 @@ namespace Trader.ViewModels
                 ps.security_name = StockName;
                 ps.username = CurrentTrader;
                 ps.id = DataCenter.GlobalLogin.UserName;
-                ps.last_closing_date = CloseDate;
+                DateTime dt;
+                if (DateTime.TryParse(CloseDate, out dt))
+                {
+                    ps.last_closing_date = dt.ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    ps.last_closing_date = "";
+                }
                 ps.authorized_qty = Qty;
                 string bm = "B";
                 switch (BuyMode)
